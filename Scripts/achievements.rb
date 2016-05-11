@@ -90,3 +90,43 @@ class Event
         @achieved_on_ticks = time
     end
 end
+
+### Region: UI
+
+
+class AchievementsScene < Scene_Base
+    # Three windows:
+    # 1) Thin top window (achievement name and description))
+    # 2) Thin bottom window (achievement details)
+    # 3) Middle window (images, keyboard to select)
+    def start
+        super
+        @summary_window = AchievementSummaryWindow.new
+        @details_window = AchievementDetailsWindow.new
+        @selection_window = AchievementsSelectionWindow.new
+        
+        @summary_window.viewport = @viewport
+        @details_window.viewport = @viewport
+        @selection_window.viewport = @viewport
+    end
+end
+
+class AchievementSummaryWindow < Window_Base
+    def initialize
+        super(0, 0, Graphics.width, 64)
+    end
+end
+
+class AchievementDetailsWindow < Window_Base
+    def initialize
+        super(0, Graphics.height - 128, Graphics.width, 128)
+    end
+end
+
+class AchievementsSelectionWindow < Window_ItemList
+    def initialize
+        super(0, 64, Graphics.width, Graphics.height - 128 - 64)
+    end
+end
+
+### End region

@@ -124,8 +124,7 @@ class Scene_Title < Scene_Base
   end
   
   def command_achievements
-    fadeout_all
-	  SceneManager.call(CSCA_Scene_Achievements)
+    SceneManager.call(AchievementsScene)
     Graphics.fadein(3000 / Graphics.frame_rate)
   end
   

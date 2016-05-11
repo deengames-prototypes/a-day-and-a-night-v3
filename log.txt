@@ -1,5 +1,0 @@
-2016-05-11 17:37:04 -0400 :: Achievements are {:khalid_bin_walid=>#<Achievement:0x66d3278 @name="Khalid bin Walid", @description="Survive ten battles", @details="Notes TBD", @is_achieved=true>, :son_of_adam=>#<Achievement:0x66d3174 @name="Son of Adam", @description="Commit your first sin", @details="Every son of Adam sins and the best are those who repent often">}
-2016-05-11 17:37:08 -0400 :: A is #<Achievement:0x66d3278>
-2016-05-11 17:37:10 -0400 :: A is #<Achievement:0x66d3278>
-2016-05-11 17:37:12 -0400 :: A is #<Achievement:0x66d3278>
-2016-05-11 17:38:16 -0400 :: A is #<Achievement:0x66d3278>
