@@ -39,7 +39,7 @@ class Achievement
     end
         
     def achieve
-        # TODO: makes debugging easier so ... return if @is_achieved == true
+        return if @is_achieved == true
         @is_achieved = true
         AchievementManager.save
         play_sound
