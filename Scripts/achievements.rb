@@ -41,6 +41,10 @@ class Achievement
     @details = details
   end
   
+  def image
+    return "Graphics/#{name.gsub(' ', '-')}.png"
+  end
+  
   def achieve
     @is_achieved = true
     AchievementManager.save(self)
