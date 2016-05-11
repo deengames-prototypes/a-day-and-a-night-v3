@@ -10,8 +10,7 @@ class AchievementManager
     
     def self.initialize(default_achievements)
         if File.exist?(ACHIEVEMENTS_FILE)
-            contents = File.read(ACHIEVEMENTS_FILE)
-            @@achievements = Serializer.deserialize(contents)
+            @@achievements = Serializer.deserialize(ACHIEVEMENTS_FILE)
         end
         
         @@achievements = default_achievements if @@achievements.nil? || achievements == {}        
@@ -19,8 +18,7 @@ class AchievementManager
     end
     
     def self.save
-        serialized = Serializer.serialize(AchievementManager.achievements)        
-        File.write(ACHIEVEMENTS_FILE, serialized)       
+        Serializer.serialize(AchievementManager.achievements, ACHIEVEMENTS_FILE)                
     end
     
     def self.achievements
@@ -41,12 +39,11 @@ class Achievement
         @name = name
         @description = description
         @details = details
-        @popup = nil
     end
         
     def achieve
         @is_achieved = true
-        AchievementManager.save(self)
+        AchievementManager.save
         play_sound
         show_popup
         close_popup_after(1)
@@ -58,26 +55,25 @@ class Achievement
     
     def show_popup        
         @popup = Window_Base.new(POPUP_WIDTH, POPUP_HEIGHT, 0, 0)
+        @popup.create_contents
         @popup.z = 9999
-        @popup.refresh
 
-        bitmap = Cache.picture(self.image)
-        rect = Rect.new(0, 0, POPUP_WIDTH, POPUP_HEIGHT)
-        target = Rect.new(0, 0, POPUP_WIDTH, POPUP_HEIGHT)
-        contents.stretch_blt(target, bitmap, rect, 255)
+        bitmap = Bitmap.new(self.image)
+        x = y = 0
+        @popup.contents.blt(x, y, bitmap, Rect.new(0, 0, bitmap.width, bitmap.height))
+    end
+    
+    def image
+        return "Graphics/Pictures/Achievements/#{name.gsub(' ', '-')}.png"
     end
     
     private
     
-    def image
-        return "Graphics/#{name.gsub(' ', '-')}.png"
-    end
-    
     def close_popup_after(seconds)
         # Assume 60FPS, as is typical of VXA
         frames = seconds * 60
-        yield(frames)
-        @popup.close unless @popup.nil?
+        #yield(frames)
+        #@popup.close unless @popup.nil?
     end
 end
 
