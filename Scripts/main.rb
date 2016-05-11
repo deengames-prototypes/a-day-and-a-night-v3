@@ -3,6 +3,7 @@ require 'Scripts/vx-ace-api/vx_ace_api'
 require 'Scripts/achievements'
 require 'Scripts/custom_save_system'
 require 'Scripts/image_title_menu'
+require 'Scripts/extensions/Event_Window'
 
 DEFAULT_ACHIEVEMENTS = {
     :khalid_bin_walid => Achievement.new("Khalid bin Walid", "Survive ten battles", "Notes TBD"),

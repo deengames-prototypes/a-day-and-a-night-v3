@@ -29,9 +29,6 @@ end
 # An achievement
 class Achievement
 
-    POPUP_WIDTH = 200
-    POPUP_HEIGHT = 100
-    
     attr_accessor :name, :description, :details
     attr_reader :is_achieved
     
@@ -42,11 +39,11 @@ class Achievement
     end
         
     def achieve
+        # TODO: makes debugging easier so ... return if @is_achieved == true
         @is_achieved = true
         AchievementManager.save
         play_sound
         show_popup
-        close_popup_after(1)
     end
     
     def play_sound
@@ -54,26 +51,13 @@ class Achievement
     end
     
     def show_popup        
-        @popup = Window_Base.new(POPUP_WIDTH, POPUP_HEIGHT, 0, 0)
-        @popup.create_contents
-        @popup.z = 9999
-
-        bitmap = Bitmap.new(self.image)
-        x = y = 0
-        @popup.contents.blt(x, y, bitmap, Rect.new(0, 0, bitmap.width, bitmap.height))
+        $game_map.interpreter.event_window_add_text("Achievement unlocked: #{self.name}")
+        $game_map.interpreter.event_window_clear_text
     end
     
     def image
+        # Uses Yanfly Engine Ace - Event Window
         return "Graphics/Pictures/Achievements/#{name.gsub(' ', '-')}.png"
-    end
-    
-    private
-    
-    def close_popup_after(seconds)
-        # Assume 60FPS, as is typical of VXA
-        frames = seconds * 60
-        #yield(frames)
-        #@popup.close unless @popup.nil?
     end
 end
 
