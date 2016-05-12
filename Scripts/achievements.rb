@@ -6,14 +6,14 @@
 # Everything's static. It's easier that way.
 class AchievementManager
     ACHIEVEMENTS_FILE = 'achievements.dat'
-    @@achievements = {} # name (symbol) => achievement
+    @@achievements = []
     
     def self.initialize(default_achievements)
         if File.exist?(ACHIEVEMENTS_FILE)
             @@achievements = Serializer.deserialize(ACHIEVEMENTS_FILE)
         end
         
-        @@achievements = default_achievements if @@achievements.nil? || achievements == {}        
+        @@achievements = default_achievements if @@achievements.nil? || achievements == []        
         Logger.log "Achievements are #{@@achievements}"
     end
     
@@ -53,11 +53,6 @@ class Achievement
     def show_popup        
         $game_map.interpreter.event_window_add_text("Achievement unlocked: #{self.name}")
         $game_map.interpreter.event_window_clear_text
-    end
-    
-    def image
-        # Uses Yanfly Engine Ace - Event Window
-        return "Graphics/Pictures/Achievements/#{name.gsub(' ', '-')}.png"
     end
 end
 
@@ -103,7 +98,8 @@ class AchievementsScene < Scene_Base
         super
         @summary_window = AchievementSummaryWindow.new
         @details_window = AchievementDetailsWindow.new
-        @selection_window = AchievementsSelectionWindow.new
+        @selection_window = AchievementsSelectionWindow.new(@summary_window, @details_window)
+        @selection_window.set_handler(:cancel, method(:return_scene))
         
         @summary_window.viewport = @viewport
         @details_window.viewport = @viewport
@@ -111,21 +107,51 @@ class AchievementsScene < Scene_Base
     end
 end
 
-class AchievementSummaryWindow < Window_Base
+class AchievementSummaryWindow < Window_Selectable
     def initialize
         super(0, 0, Graphics.width, 64)
     end
 end
 
-class AchievementDetailsWindow < Window_Base
-    def initialize
-        super(0, Graphics.height - 128, Graphics.width, 128)
+class AchievementsSelectionWindow < Window_Command
+
+    def initialize(summary_window, details_window)
+        @summary_window = summary_window
+        @details_window = details_window
+        super(0, 64)                
+        Logger.log("Handler set")
+    end
+    
+    def make_command_list
+        super
+        AchievementManager.achievements.each do |a|
+          add_command(a.name, a.name.gsub(' ', '_').to_sym)          
+        end
+    end
+    
+    def window_width
+        return Graphics.width
+    end
+    
+    def window_height
+        return Graphics.height - 128 - 64
+    end
+    
+    # Run when the selected index changes
+    def index=(index)    
+        super
+        achievement = AchievementManager.achievements[index]
+        @summary_window.refresh # clears the old text        
+        @summary_window.draw_text_ex(0, 0, "#{achievement.name}: #{achievement.description}")
+
+        @details_window.refresh # clears the old text            
+        @details_window.draw_text_ex(0, 0, achievement.details)
     end
 end
 
-class AchievementsSelectionWindow < Window_ItemList
+class AchievementDetailsWindow < Window_Selectable
     def initialize
-        super(0, 64, Graphics.width, Graphics.height - 128 - 64)
+        super(0, Graphics.height - 128, Graphics.width, 128)
     end
 end
 
