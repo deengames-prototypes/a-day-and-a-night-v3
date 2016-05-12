@@ -118,14 +118,13 @@ class AchievementsSelectionWindow < Window_Command
     def initialize(summary_window, details_window)
         @summary_window = summary_window
         @details_window = details_window
-        super(0, 64)                
-        Logger.log("Handler set")
+        super(0, 64)
     end
     
     def make_command_list
         super
         AchievementManager.achievements.each do |a|
-          add_command(a.name, a.name.gsub(' ', '_').to_sym)          
+          add_command(a.name, a.name.gsub(' ', '_').to_sym) if a.is_achieved     
         end
     end
     

@@ -6,7 +6,7 @@ require 'Scripts/image_title_menu'
 require 'Scripts/extensions/Event_Window'
 
 DEFAULT_ACHIEVEMENTS = [
-    Achievement.new("Khalid bin Walid", "Survive ten battles", "Notes TBD"),
+    Achievement.new("Khalid bin Walid", "Survive ten battles", "Placeholder achievement"),
     Achievement.new("Son of Adam", "Commit your first sin", "Every son of Adam sins and the best are those who repent often")
 ]
 
