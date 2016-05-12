@@ -11,3 +11,5 @@ DEFAULT_ACHIEVEMENTS = [
 ]
 
 AchievementManager.initialize(DEFAULT_ACHIEVEMENTS)
+
+Logger.log(Bitmap.instance_methods)
