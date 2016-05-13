@@ -1,10 +1,9 @@
 API_ROOT = 'Scripts/vx-ace-api'
 require 'Scripts/vx-ace-api/vx_ace_api'
 require 'Scripts/achievements'
-require 'Scripts/custom_save_system'
 require 'Scripts/image_title_menu'
 require 'Scripts/extensions/Event_Window'
-#require 'Scripts/extensions/custom_save_system'
+require 'Scripts/extensions/custom_save_system'
 require 'Scripts/extensions/points_system'
 
 DEFAULT_ACHIEVEMENTS = [
@@ -13,5 +12,3 @@ DEFAULT_ACHIEVEMENTS = [
 ]
 
 AchievementManager.initialize(DEFAULT_ACHIEVEMENTS)
-
-Logger.log(Bitmap.instance_methods)

@@ -29,7 +29,9 @@ module PointsSystem
   # End variables. Please don't touch anything below this line.
   
   # Prepare/Register for Saving.
-  DataManager.setup({ :points_scored => [] })
+  DataManager.setup(Proc.new do |data|
+    data[:points_scored] = []
+  end)
 
   def self.add_points(event, score)
     points_scored = get_points_scored
