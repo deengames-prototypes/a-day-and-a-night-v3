@@ -9,6 +9,8 @@ You can play the first two (incomplete) versions: [v1](https://github.com/deenga
 - Teach people deen, and sticking to that as much as possible
 - Teach a practical implementation of muhasaba (self-accountability)
 - Fun, exploratory gameplay style with lots and lots to do (and Amorphous+ style achievements)
+- Short rounds, with lots of replayability -- ~48m for a single playthrough
+
 
 # Prototype
 
