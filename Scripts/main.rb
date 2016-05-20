@@ -6,6 +6,8 @@ require 'Scripts/extensions/Event_Window'
 require 'Scripts/extensions/custom_save_system'
 require 'Scripts/extensions/points_system'
 require 'Scripts/extensions/points_system_game_over_screen'
+require 'Scripts/extensions/advanced_game_time'
+
 
 DEFAULT_ACHIEVEMENTS = [
     Achievement.new("Khalid bin Walid", "Survive ten battles", "Placeholder achievement"),
