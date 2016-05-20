@@ -26,13 +26,20 @@ class PointsSummaryWindow < Window_Command
   
   def make_command_list    
     points = PointsSystem.get_points_scored    
+    good_deeds = points.select { |p| p.points >= 0 }
+    bad_deeds = points.select { |p| p.points < 0 }
     
     total_points = points.map { |p| p.points }.sum
-    add_command("Total points: #{total_points}", :total_points)
+    add_command("----- Total deeds: #{total_points} -----", :total_deeds)
     
-    points.each do |p|
-      add_command("#{p.event} (#{p.points} points)", p.event.gsub(' ', '-').to_sym)
-      total_points += p.points
+    add_command("--- Good Deeds: #{good_deeds.length} ---", :good_deeds)    
+    good_deeds.each do |p|
+      add_command("#{p.event}", p.event.gsub(' ', '-').to_sym)      
+    end
+    
+    add_command("--- Bad Deeds: #{bad_deeds.length} ---", :good_deeds)    
+    bad_deeds.each do |p|
+      add_command("#{p.event}", p.event.gsub(' ', '-').to_sym)      
     end
     
   end
