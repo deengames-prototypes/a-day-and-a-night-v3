@@ -15,3 +15,10 @@ DEFAULT_ACHIEVEMENTS = [
 ]
 
 AchievementManager.initialize(DEFAULT_ACHIEVEMENTS)
+
+class AdaanV3
+  def self.is_game_over?
+    # One day later and >= 5am
+    return GameTime.day? > 1 && GameTime.hour? >= 5
+  end
+end
