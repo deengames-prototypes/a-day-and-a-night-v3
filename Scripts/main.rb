@@ -7,7 +7,8 @@ require 'Scripts/extensions/custom_save_system'
 require 'Scripts/extensions/points_system'
 require 'Scripts/extensions/points_system_game_over_screen'
 require 'Scripts/extensions/advanced_game_time'
-
+require 'Scripts/extensions/script_event_page_conditions'
+require 'Scripts/extensions/swimming'
 
 DEFAULT_ACHIEVEMENTS = [
     Achievement.new("Khalid bin Walid", "Survive ten battles", "Placeholder achievement"),
