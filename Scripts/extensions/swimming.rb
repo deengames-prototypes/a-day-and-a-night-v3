@@ -20,7 +20,6 @@ class Game_Player < Game_Character
   # * Determine if Actor can Swim
   #--------------------------------------------------------------------------
   def can_swim?(x,y)
-	Logger.log("(#{x}, #{y}) #{$game_switches[PLAYER_IS_SWIMMING_SWITCH] && $game_map.terrain_tag(x, y) == SWIMMING_TAG}")
-    return $game_switches[PLAYER_IS_SWIMMING_SWITCH] && $game_map.terrain_tag(x, y) == SWIMMING_TAG
+	return $game_switches[PLAYER_IS_SWIMMING_SWITCH] && $game_map.terrain_tag(x, y) == SWIMMING_TAG
   end  
 end
