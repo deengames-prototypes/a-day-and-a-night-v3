@@ -19,6 +19,7 @@ AchievementManager.initialize(DEFAULT_ACHIEVEMENTS)
 
 class AdaanV3
   STARTED_SWIMMING_VARIABLE = 1
+  DROWN_AFTER_SECONDS = 15
   
   def self.is_game_over?
     # One day later and >= 5am
@@ -28,6 +29,6 @@ class AdaanV3
   def self.is_drowned?
 	Logger.log("HI! #{$game_variables[STARTED_SWIMMING_VARIABLE]} variables");
 	# 0 is the default value for variables that we didn't use yet.
-	return $game_variables[STARTED_SWIMMING_VARIABLE] != 0 && Time.new - $game_variables[STARTED_SWIMMING_VARIABLE] >= 10
+	return $game_variables[STARTED_SWIMMING_VARIABLE] != 0 && Time.new - $game_variables[STARTED_SWIMMING_VARIABLE] >= DROWN_AFTER_SECONDS
   end
 end
