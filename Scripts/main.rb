@@ -13,11 +13,13 @@ require 'Scripts/extensions/lemony_sounds'
 require 'Scripts/extensions/lemonys_current_fps'
 
 DEFAULT_ACHIEVEMENTS = [
-    Achievement.new("Khalid bin Walid", "Survive ten battles", "Placeholder achievement"),
     Achievement.new("Son of Adam", "Commit your first sin", "Every son of Adam sins and the best are those who repent often")
 ]
 
 AchievementManager.initialize(DEFAULT_ACHIEVEMENTS)
+PointsSystem.on_add_points(Proc.new do |event, score|
+  Logger.log("Callback: #{event}/#{score}")
+end)
 
 class AdaanV3
   STARTED_SWIMMING_VARIABLE = 1
@@ -28,8 +30,7 @@ class AdaanV3
     return GameTime.day? > 1 && GameTime.hour? >= 5
   end
   
-  def self.is_drowned?
-    Logger.log("HI! #{$game_variables[STARTED_SWIMMING_VARIABLE]} variables");
+  def self.is_drowned?    
     # 0 is the default value for variables that we didn't use yet.
     return $game_variables[STARTED_SWIMMING_VARIABLE] != 0 && Time.new - $game_variables[STARTED_SWIMMING_VARIABLE] >= DROWN_AFTER_SECONDS
   end
