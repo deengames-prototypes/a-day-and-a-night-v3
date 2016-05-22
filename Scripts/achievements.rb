@@ -1,7 +1,7 @@
 ###
 # Achievements live across all games. They're also associated with fancy images and such.
 # TODO: this is still very, very rough.
-###
+### 
 
 # Everything's static. It's easier that way.
 class AchievementManager
@@ -10,10 +10,13 @@ class AchievementManager
   
   def self.initialize(default_achievements)
     if File.exist?(ACHIEVEMENTS_FILE)
+      Logger.log("LOADING #{ACHIEVEMENTS_FILE}")
       @@achievements = Serializer.deserialize(ACHIEVEMENTS_FILE)
+    else
+      Logger.log("NEW ACHIEVEMENTS #{default_achievements}")
+      @@achievements = default_achievements
     end
     
-    @@achievements = default_achievements if @@achievements.nil? || achievements == []    
     Logger.log "Achievements are #{@@achievements}"
   end
   
@@ -149,13 +152,16 @@ class AchievementsSelectionWindow < Window_Command
   # Run when the selected index changes
   def index=(index)  
     super
-    achievement = AchievementManager.achievements[index]
-    @summary_window.refresh # clears the old text    
-    @summary_window.draw_text_ex(0, 0, "#{achievement.name}: #{achievement.description}")
+    achievement = AchievementManager.achievements.select{ |a| a.is_achieved }[index]
+    
+    if !achievement.nil?    
+      @summary_window.refresh # clears the old text    
+      @summary_window.draw_text_ex(0, 0, "#{achievement.name}: #{achievement.description}")
 
-    @details_window.refresh # clears the old text      
-    @details_window.draw_text_ex(0, 0, achievement.details)    
-
+      @details_window.refresh # clears the old text      
+      @details_window.draw_text_ex(0, 0, achievement.details)    
+    end
+    
     self.refresh    
   end
   
@@ -163,7 +169,7 @@ class AchievementsSelectionWindow < Window_Command
   
   def redraw_all_achievements
     i = 0
-    AchievementManager.achievements.each do |achievement|      
+    AchievementManager.achievements.select{ |a| a.is_achieved }.each do |achievement|      
       # Strange formula: treat each item as (item + padding) wide. 
       # We only need to subtract extra padding for the first item, since it's located at x=ITEM_PADDING
       # (The last item's padding will hit the end of the window, so we're covered.)

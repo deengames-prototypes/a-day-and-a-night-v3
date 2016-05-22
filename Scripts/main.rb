@@ -13,12 +13,16 @@ require 'Scripts/extensions/lemony_sounds'
 require 'Scripts/extensions/lemonys_current_fps'
 
 DEFAULT_ACHIEVEMENTS = [
-    Achievement.new("Son of Adam", "Commit your first sin", "Every son of Adam sins and the best are those who repent often")
+    Achievement.new("Son of Adam", "Commit your first sin", "Every son of Adam sins and the best are those who repent often [Tirmidhi]")
 ]
 
 AchievementManager.initialize(DEFAULT_ACHIEVEMENTS)
+
 PointsSystem.on_add_points(Proc.new do |event, score|
-  Logger.log("Callback: #{event}/#{score}")
+  all_points = PointsSystem.get_points_scored
+  if all_points.select { |p| p.points < 0 }.length == 1 # this is the only sin
+    AchievementManager.achievements.select { |a| a.name == 'Son of Adam' }.first.achieve
+  end
 end)
 
 class AdaanV3
