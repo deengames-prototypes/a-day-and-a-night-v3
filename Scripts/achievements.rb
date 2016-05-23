@@ -78,26 +78,26 @@ end
 # A list of events, and what "time" they occurred (in ticks). Use these to decide
 # what achievements to grant the user. 
 class EventRecorder
-  attr_accessor :events
+  @@events = []
   
-  def note_event(name)
+  def self.note_event(name)
     # time = now_in_ticks
-    @events << Event.new(name)
+    @@events << Event.new(name)
   end
   
-  def has?(name)
+  def self.has?(name)
     to_return = []
-    @events.each do |e|
+    @@events.each do |e|
       to_return << e if e.name.downcase == name.downcase
     end
     return to_return
   end
 end
 
-# An event. Has a name and a time. (Time is in ticks so that if you save, quit, and reload
-# the next day, you can still achieve achievements that need to be done relatively quickly).
+# An event. Has a name and a time. (Time is in calendar time, so don't use it
+# to see if events occurred soon after each other. You can save/quit.
 class Event
-  attr_accessor :name, :achieved_on_ticks
+  attr_accessor :name, :time
   
   def new(name, time)
     @name = name

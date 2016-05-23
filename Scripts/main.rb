@@ -15,7 +15,8 @@ require 'Scripts/extensions/lemonys_current_fps'
 DEFAULT_ACHIEVEMENTS = [
     Achievement.new("Son of Adam", "Commit your first sin", "Every son of Adam sins and the best are those who repent often (at-tawwaboon). [Tirmidhi]"),
     Achievement.new("Seeker of Knowledge", "Seek a path of religious knowledge", "Whoever follows a path to seek knowledge, Allah will make the path of Jannah easy to him. The angels lower their wings over the seeker of knowledge [...] even the fish in the depth of the oceans seek forgiveness for him. [Abu Dawud]"),
-    Achievement.new("Drowned", "Find a path to martyrdom", "Five are regarded as martyrs: They are those who die because of plague, abdominal disease, drowning, are crushed to death, and the martyrs in Allah's cause. [Bukhari]"),
+    Achievement.new("Drowned", "Discover a path to martyrdom", "Five are regarded as martyrs: They are those who die because of plague, abdominal disease, drowning, are crushed to death, and the martyrs in Allah's cause. [Bukhari]"),
+    Achievement.new("Nafsun Lawwamah", "Flip-flop between good and bad deeds", "An-nafs al-lawwamah means the soul that flip-flops between good and bad deeds, and the soul that admonishes/reproaches itself after it commits bad deeds.")
 ]
 
 AchievementManager.initialize(DEFAULT_ACHIEVEMENTS)
@@ -24,6 +25,15 @@ PointsSystem.on_add_points(Proc.new do |event, score|
   all_points = PointsSystem.get_points_scored
   if all_points.select { |p| p.points < 0 }.length == 1 # this is the only sin
     AchievementManager.achievements.select { |a| a.name == 'Son of Adam' }.first.achieve
+  end
+  
+  # Look at the last four deeds. If it's good/bad/good/bad or bad/good/bad/good,
+  # award the nafsun-lawwamah achievement.
+  if (all_points.length >= 4)
+    last_four = all_points[-4..-1]
+    award = last_four[0].points < 0 && last_four[1].points > 0 && last_four[2].points < 0 && last_four[3].points > 0
+    award ||= last_four[0].points > 0 && last_four[1].points < 0 && last_four[2].points > 0 && last_four[3].points < 0
+    AchievementManager.achievements.select { |a| a.name == 'Nafsun Lawwamah' }.first.achieve if award
   end
 end)
 

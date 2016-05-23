@@ -72,9 +72,9 @@ module PointsSystem
     Sound.play_system_sound(NEGATIVE_SOUND) if key == :negative
   end
   
-    def self.show_ui(value)
-      SceneManager.scene.points_visible(value)
-    end
+  def self.show_ui(value)
+    SceneManager.scene.points_visible(value)
+  end
   
   class Points
     attr_reader :points, :event
