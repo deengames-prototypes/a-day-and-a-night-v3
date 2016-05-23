@@ -7,7 +7,11 @@ class Scene_Gameover < Scene_Base
     old_start
     @points_summary_window = PointsSummaryWindow.new
     @points_summary_window.viewport = @viewport
-    @points_summary_window.set_handler(:cancel, method(:return_scene))
+    @points_summary_window.set_handler(:cancel, method(:go_to_title))
+  end
+  
+  def go_to_title
+    SceneManager.goto(Scene_Title)
   end
 end
 
