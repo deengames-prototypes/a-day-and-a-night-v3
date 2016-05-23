@@ -10,10 +10,21 @@ class AchievementManager
   
   def self.initialize(default_achievements)
     if File.exist?(ACHIEVEMENTS_FILE)
-      Logger.log("LOADING #{ACHIEVEMENTS_FILE}")
       @@achievements = Serializer.deserialize(ACHIEVEMENTS_FILE)
+      
+      # Add any new default achievements that are not in the file or update fields
+      default_achievements.each do |d|
+        list = @@achievements.select { |a| a.name == d.name }
+        if list.length == 0
+          @@achievements << d
+        else
+          # update everything but the name
+          a = list.first
+          a.description = d.description
+          a.details = d.details
+        end
+      end
     else
-      Logger.log("NEW ACHIEVEMENTS #{default_achievements}")
       @@achievements = default_achievements
     end
     
