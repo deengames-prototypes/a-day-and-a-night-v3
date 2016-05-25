@@ -72,7 +72,7 @@ module YEA
     # shown and the window fade rate.
     #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     NEW_MAP_CLEAR = true    # Clear text when entering a new map?
-    WINDOW_WIDTH  = 250     # Event Window width.
+    WINDOW_WIDTH  = 350     # Event Window width.
     VISIBLE_TIME  = 120     # Frames the window is visible before fading.
     MAX_LINES     = 4       # Maximum number of lines shown.
     WINDOW_FADE   = 8       # Fade rate for the Event Window.

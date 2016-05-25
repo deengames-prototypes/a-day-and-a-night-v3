@@ -16,7 +16,9 @@ DEFAULT_ACHIEVEMENTS = [
     Achievement.new("Son of Adam", "Commit your first sin", "Every son of Adam sins and the best are those who repent often (at-tawwaboon). [Tirmidhi]"),
     Achievement.new("Seeker of Knowledge", "Seek a path of religious knowledge", "Whoever follows a path to seek knowledge, Allah will make the path of Jannah easy to him. The angels lower their wings over the seeker of knowledge [...] even the fish in the depth of the oceans seek forgiveness for him. [Abu Dawud]"),
     Achievement.new("Drowned", "Discover a path to martyrdom", "Five are regarded as martyrs: They are those who die because of plague, abdominal disease, drowning, are crushed to death, and the martyrs in Allah's cause. [Bukhari]"),
-    Achievement.new("Nafsun Lawwamah", "Flip-flop between good and bad deeds", "An-nafs al-lawwamah means the soul that flip-flops between good and bad deeds, and the soul that admonishes/reproaches itself after it commits bad deeds.")
+    Achievement.new("Nafsun Lawwamah", "Flip-flop between good and bad deeds", "An-nafs al-lawwamah means the soul that flip-flops between good and bad deeds, and the 
+    soul that admonishes/reproaches itself after it commits bad deeds."),
+    Achievement.new("Heart is Attached to the Masjid", "Pray all five salawaat in the masjid", "Seven types of people will receive Allah's shade on the day of Resurrection, where there is no shade except His shade. One of them is a person who's heart is attached to the masjid. [Bukhari and Muslim]")
 ]
 
 AchievementManager.initialize(DEFAULT_ACHIEVEMENTS)
@@ -36,6 +38,18 @@ PointsSystem.on_add_points(Proc.new do |event, score|
     award ||= last_four[0].points > 0 && last_four[1].points < 0 && last_four[2].points > 0 && last_four[3].points < 0
     AchievementManager.achievements.select { |a| a.name == 'Nafsun Lawwamah' }.first.achieve if award
   end
+  
+  # Look at the last five salahs in the masjid. If we have fajr/dhur/asr/maghrib/isha,
+  # award the muallaq al-quloob achievement.
+  if all_points.length >= 5
+    salawaat = all_points.select { |p| p.event.downcase.include?('in the masjid') }
+    if salawaat.length >= 5
+      last_five = salawaat[-5..-1]
+      # most recent five include each of the five salawaat
+      award = last_five.any? { |s| s.event.include?('Fajr') } && last_five.any? { |s| s.event.include?('Dhur') } && last_five.any? { |s| s.event.include?('Asr') } && last_five.any? { |s| s.event.include?('Maghrib') } && last_five.any? { |s| s.event.include?('Isha') }
+      AchievementManager.achievements.select { |a| a.name == 'Heart is Attached to the Masjid' }.first.achieve if award
+    end
+  end
 end)
 
 class AdaanV3
@@ -43,8 +57,8 @@ class AdaanV3
   DROWN_AFTER_SECONDS = 15
   
   def self.is_game_over?
-    # One day later and >= 5am
-    return GameTime.day? > 1 && GameTime.hour? >= 5
+    # 3 days later and >= 5am
+    return GameTime.day? > 300 && GameTime.hour? >= 5
   end
   
   def self.is_drowned?    
