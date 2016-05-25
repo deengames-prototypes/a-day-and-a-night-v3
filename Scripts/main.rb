@@ -57,8 +57,8 @@ class AdaanV3
   DROWN_AFTER_SECONDS = 15
   
   def self.is_game_over?
-    # 3 days later and >= 5am
-    return GameTime.day? > 300 && GameTime.hour? >= 5
+    # one day later and >= 5am
+    return GameTime.day? > 1 && GameTime.hour? >= 5
   end
   
   def self.is_drowned?    
