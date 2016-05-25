@@ -22,13 +22,14 @@ DEFAULT_ACHIEVEMENTS = [
 AchievementManager.initialize(DEFAULT_ACHIEVEMENTS)
 
 PointsSystem.on_add_points(Proc.new do |event, score|
+  # If this is the first sin, get the Son of Adam achievement.
   all_points = PointsSystem.get_points_scored
   if all_points.select { |p| p.points < 0 }.length == 1 # this is the only sin
     AchievementManager.achievements.select { |a| a.name == 'Son of Adam' }.first.achieve
   end
   
   # Look at the last four deeds. If it's good/bad/good/bad or bad/good/bad/good,
-  # award the nafsun-lawwamah achievement.
+  # award the An-Nafsun Al-Lawwamah achievement.
   if (all_points.length >= 4)
     last_four = all_points[-4..-1]
     award = last_four[0].points < 0 && last_four[1].points > 0 && last_four[2].points < 0 && last_four[3].points > 0
@@ -51,12 +52,17 @@ class AdaanV3
     return $game_variables[STARTED_SWIMMING_VARIABLE] != 0 && Time.new - $game_variables[STARTED_SWIMMING_VARIABLE] >= DROWN_AFTER_SECONDS
   end
   
-  def self.is_salah_time?    
-    return true if GameTime.hour? == 5 && GameTime.min? >= 30 && GameTime.min? <= 39 # Fajr
-    return true if GameTime.hour? == 13 && GameTime.min? >= 15 &&  GameTime.min? <= 24 # Dhur    
-    return true if GameTime.hour? == 17 && GameTime.min? >= 20 && GameTime.min? <= 29 # Asr
-    return true if GameTime.hour? == 20 && GameTime.min? >= 43 && GameTime.min? <= 53 # Maghrib
-    return true if GameTime.hour? == 22 && GameTime.min? >= 25 && GameTime.min? <= 34 # Isha
-    return false
+  # returns the salah name whose time it is now, or nil
+  def self.current_masjid_salah   
+    return 'Fajr' if GameTime.hour? == 5 && GameTime.min? >= 30 && GameTime.min? <= 39
+    return 'Dhur' if GameTime.hour? == 13 && GameTime.min? >= 15 &&  GameTime.min? <= 24    
+    return 'Asr' if GameTime.hour? == 17 && GameTime.min? >= 20 && GameTime.min? <= 29
+    return 'Maghrib' if GameTime.hour? == 20 && GameTime.min? >= 43 && GameTime.min? <= 53
+    return 'Isha' if GameTime.hour? == 22 && GameTime.min? >= 25 && GameTime.min? <= 34 
+    return nil
+  end
+  
+  def self.is_salah_time?
+    return !current_masjid_salah.nil?
   end
 end
