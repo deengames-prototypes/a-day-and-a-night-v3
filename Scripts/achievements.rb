@@ -170,7 +170,7 @@ class AchievementsSelectionWindow < Window_Command
 
     if !achievement.nil?
       @summary_window.refresh # clears the old text
-      @summary_window.draw_text_ex(0, 0, "#{achievement.name}: #{achievement.description}")
+      @summary_window.draw_text_ex(0, 0, "#{achievement.name}" + (achievement.is_achieved ? ": #{achievement.description}" : ''))
 
       @details_window.refresh # clears the old text
       @details_window.draw_text_ex(0, 0, achievement.is_achieved ? achievement.details : 'Locked.')
@@ -212,11 +212,11 @@ class AchievementsSelectionWindow < Window_Command
 
     change_color(normal_color, command_enabled?(index))
 
-    opacity = achievement.is_achieved ? 255 : 125
-
     x = rectangle.x + ITEM_PADDING / 2
     y = rectangle.y + ITEM_PADDING / 2
-    contents.blt(x, y, Bitmap.new(achievement.image), Rect.new(0, 0, IMAGE_WIDTH, IMAGE_HEIGHT), opacity)
+	image_name = achievement.image
+	image_name = image_name.sub('.png', '-locked.png') unless achievement.is_achieved
+    contents.blt(x, y, Bitmap.new(image_name), Rect.new(0, 0, IMAGE_WIDTH, IMAGE_HEIGHT), 255)
   end
 end
 

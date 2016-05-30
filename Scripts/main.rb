@@ -19,7 +19,7 @@ DEFAULT_ACHIEVEMENTS = [
     Achievement.new("Drowned", "Discover a path to martyrdom", "Five are regarded as martyrs: They are those who die because of plague, abdominal disease, drowning, are crushed to death, and the martyrs in Allah's cause. [Bukhari]"),
     Achievement.new("Nafsun Lawwamah", "Flip-flop between good and bad deeds", "An-nafs al-lawwamah means the soul that flip-flops between good and bad deeds, and the
     soul that admonishes/reproaches itself after it commits bad deeds."),
-    Achievement.new("Heart is Attached to the Masjid", "Pray all five salawaat in the masjid", "Seven types of people will receive Allah's shade on the day of Resurrection, where there is no shade except His shade. One of them is a person who's heart is attached to the masjid. [Bukhari and Muslim]")
+    Achievement.new("Heart Attached to the Masjid", "Pray 5x in the masjid in a day", "Seven types of people will receive Allah's shade on the day of Resurrection, where there is no shade except His shade. One of them is a person who's heart is attached to the masjid. [Bukhari and Muslim]")
 ]
 
 AchievementManager.initialize(DEFAULT_ACHIEVEMENTS)
@@ -48,7 +48,7 @@ PointsSystem.on_add_points(Proc.new do |event, score|
       last_five = salawaat[-5..-1]
       # most recent five include each of the five salawaat
       award = last_five.any? { |s| s.event.include?('Fajr') } && last_five.any? { |s| s.event.include?('Dhur') } && last_five.any? { |s| s.event.include?('Asr') } && last_five.any? { |s| s.event.include?('Maghrib') } && last_five.any? { |s| s.event.include?('Isha') }
-      AchievementManager.achievements.select { |a| a.name == 'Heart is Attached to the Masjid' }.first.achieve if award
+      AchievementManager.achievements.select { |a| a.name == 'Heart Attached to the Masjid' }.first.achieve if award
     end
   end
 end)
