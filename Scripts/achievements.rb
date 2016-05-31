@@ -71,7 +71,7 @@ class Achievement
   end
 
   def image
-    return "Graphics/Pictures/Achievements/#{name.downcase.gsub(' ', '-')}.png"
+    return "#{name.downcase.gsub(' ', '-')}.png"
   end
 end
 
@@ -170,7 +170,7 @@ class AchievementsSelectionWindow < Window_Command
 
     if !achievement.nil?
       @summary_window.refresh # clears the old text
-      @summary_window.draw_text_ex(0, 0, "#{achievement.name}" + (achievement.is_achieved ? ": #{achievement.description}" : ''))
+      @summary_window.draw_text_ex(0, 0, "#{achievement.name}: " + (achievement.is_achieved ? achievement.description : '???'))
 
       @details_window.refresh # clears the old text
       @details_window.draw_text_ex(0, 0, achievement.is_achieved ? achievement.details : 'Locked.')
@@ -214,9 +214,9 @@ class AchievementsSelectionWindow < Window_Command
 
     x = rectangle.x + ITEM_PADDING / 2
     y = rectangle.y + ITEM_PADDING / 2
-	image_name = achievement.image
-	image_name = image_name.sub('.png', '-locked.png') unless achievement.is_achieved
-    contents.blt(x, y, Bitmap.new(image_name), Rect.new(0, 0, IMAGE_WIDTH, IMAGE_HEIGHT), 255)
+	  image_name = achievement.is_achieved ? achievement.image : 'locked.png'
+    image_name = "Graphics/Pictures/Achievements/#{image_name}"
+	  contents.blt(x, y, Bitmap.new(image_name), Rect.new(0, 0, IMAGE_WIDTH, IMAGE_HEIGHT), 255)
   end
 end
 
