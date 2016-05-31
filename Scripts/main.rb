@@ -56,6 +56,12 @@ end)
 class AdaanV3
   STARTED_SWIMMING_VARIABLE = 1
   DROWN_AFTER_SECONDS = 15
+  VARIABLE_WITH_FLASHBACK_NUMBER = 2
+  
+  # Map data. Each map has an ID (VXA ID), and X/Y position to teleport the player to.
+  FLASHBACK_MAPS = [
+    { :id => 6, :x => 8, :y => 12 }
+  ]
 
   def self.is_game_over?
     # one day later and >= 5am
@@ -79,5 +85,37 @@ class AdaanV3
 
   def self.is_salah_time?
     return !current_masjid_salah.nil?
+  end
+  
+  # Teleport you to the map with the appropriate flashback number (variable #2)
+  def self.show_flashback
+    @@source_map = {:id => $game_map.map_id, :x => $game_player.x, :y => $game_player.y }    
+    map_data = FLASHBACK_MAPS[$game_variables[VARIABLE_WITH_FLASHBACK_NUMBER]]
+    
+    if !map_data.nil?
+      $game_map.screen.start_fadeout(1)
+      $game_map.screen.start_tone_change(Tone.new(0, 0, 0, 255), 1) # grey out    
+      transfer_to(map_data)
+      $game_map.screen.start_fadein(1)
+    end
+  end
+  
+  def self.end_flashback  
+    $game_map.screen.start_fadeout(1)
+    $game_map.screen.start_tone_change(Tone.new(0, 0, 0, 0), 1) # undo grey-out
+    transfer_to(@@source_map)    
+    $game_map.screen.start_fadein(1)
+  end
+  
+  private
+  
+  def self.transfer_to(map_data)
+    map_id = map_data[:id]
+    x = map_data[:x]
+    y = map_data[:y]
+
+    Logger.log("TRANSFERRING TO #{map_id} at #{x}, #{y}")
+    $game_player.reserve_transfer(map_id, x, y)
+    Fiber.yield while $game_player.transfer?
   end
 end
