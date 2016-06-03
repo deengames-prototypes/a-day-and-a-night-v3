@@ -92,6 +92,9 @@ class AdaanV3
     @@source_map = {:id => $game_map.map_id, :x => $game_player.x, :y => $game_player.y }    
     map_data = FLASHBACK_MAPS[$game_variables[VARIABLE_WITH_FLASHBACK_NUMBER]]
     
+    GameTime.notime(true) # pause time
+    GameTime.clock?(false)
+    
     if !map_data.nil?
       $game_map.screen.start_fadeout(1)
       $game_map.screen.start_tone_change(Tone.new(0, 0, 0, 255), 1) # grey out    
@@ -105,6 +108,9 @@ class AdaanV3
     $game_map.screen.start_tone_change(Tone.new(0, 0, 0, 0), 1) # undo grey-out
     transfer_to(@@source_map)    
     $game_map.screen.start_fadein(1)
+    
+    GameTime.notime(false) # resume time
+    GameTime.clock?(true)
   end
   
   private
