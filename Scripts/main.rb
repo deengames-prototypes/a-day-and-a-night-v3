@@ -97,18 +97,14 @@ class AdaanV3
     GameTime.clock?(false)
     
     if !map_data.nil?
-      $game_map.screen.start_fadeout(1)
-      $game_map.screen.start_tone_change(Tone.new(0, 0, 0, 255), 1) # grey out    
+      $game_map.screen.start_tone_change(Tone.new(0, 0, 0, 255), 30) # grey out    
       transfer_to(map_data)
-      $game_map.screen.start_fadein(1)
     end
   end
   
   def self.end_flashback  
-    $game_map.screen.start_fadeout(1)
-    $game_map.screen.start_tone_change(Tone.new(0, 0, 0, 0), 1) # undo grey-out
+    $game_map.screen.start_tone_change(Tone.new(0, 0, 0, 0), 30) # undo grey-out
     transfer_to(@@source_map)    
-    $game_map.screen.start_fadein(1)
     
     GameTime.notime(false) # resume time
     GameTime.clock?(true)
