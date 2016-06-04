@@ -60,7 +60,8 @@ class AdaanV3
   
   # Map data. Each map has an ID (VXA ID), and X/Y position to teleport the player to.
   FLASHBACK_MAPS = [
-    { :id => 6, :x => 8, :y => 12 }
+    { :id => 6, :x => 8, :y => 12 },
+    { :id => 7, :x => 8, :y => 12 }
   ]
 
   def self.is_game_over?
