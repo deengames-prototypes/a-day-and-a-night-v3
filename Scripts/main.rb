@@ -20,7 +20,9 @@ DEFAULT_ACHIEVEMENTS = [
     Achievement.new("Nafsun Lawwamah", "Flip-flop between good and bad deeds", "An-nafs al-lawwamah means the soul that flip-flops between good and bad deeds, and the
     soul that admonishes/reproaches itself after it commits bad deeds."),
     Achievement.new("Heart Attached to the Masjid", "Pray 5x in the masjid in a day", "Seven types of people will receive Allah's shade on the day of Resurrection, where there is no shade except His shade. One of them is a person who's heart is attached to the masjid. [Bukhari and Muslim]"),
-	Achievement.new("Past and Present", "Rediscover why you're here", "Except for those who repent, believe and do righteous work. For them Allah will replace their evil deeds with good. And ever is Allah Forgiving and Merciful. [Surat Al-Furqan, 25:70]")
+    Achievement.new("Past and Present", "Rediscover why you're here", "Except for those who repent, believe and do righteous work. For them Allah will replace their evil deeds with good. And ever is Allah Forgiving and Merciful. [Surat Al-Furqan, 25:70]"),
+    Achievement.new("You Monster!", "Side with poachers", "A woman entered the Fire because of a cat which she had tied, neither giving it food nor setting it free to eat from the vermin of the earth. [Bukhari]"),
+    Achievement.new("Animal Saviour", "Save an animal's life", "A dog was going round a well and was about to die of thirst. A prostitute saw it, took off her shoe, and use it to draw out water for the dog. Allah forgave her because of that good deed. [Bukhari]")
 ]
 
 AchievementManager.initialize(DEFAULT_ACHIEVEMENTS)

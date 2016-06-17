@@ -71,37 +71,7 @@ class Achievement
   end
 
   def image
-    return "#{name.downcase.gsub(' ', '-')}.png"
-  end
-end
-
-# A list of events, and what "time" they occurred (in ticks). Use these to decide
-# what achievements to grant the user.
-class EventRecorder
-  @@events = []
-
-  def self.note_event(name)
-    # time = now_in_ticks
-    @@events << Event.new(name)
-  end
-
-  def self.has?(name)
-    to_return = []
-    @@events.each do |e|
-      to_return << e if e.name.downcase == name.downcase
-    end
-    return to_return
-  end
-end
-
-# An event. Has a name and a time. (Time is in calendar time, so don't use it
-# to see if events occurred soon after each other. You can save/quit.
-class Event
-  attr_accessor :name, :time
-
-  def new(name, time)
-    @name = name
-    @achieved_on_ticks = time
+    return "#{name.downcase.gsub(' ', '-').gsub('!', '')}.png"
   end
 end
 
