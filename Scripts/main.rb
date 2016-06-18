@@ -12,6 +12,10 @@ require 'Scripts/extensions/script_event_page_conditions'
 require 'Scripts/extensions/swimming'
 require 'Scripts/extensions/lemony_sounds'
 require 'Scripts/extensions/lemonys_current_fps'
+require 'Scripts/extensions/super-simple-mouse-script'
+require 'Scripts/extensions/system_options'
+require 'Scripts/extensions/Victor-Engine-Basic-Module'
+require 'Scripts/extensions/Victor-Engine-Light-Effects'
 
 DEFAULT_ACHIEVEMENTS = [
     Achievement.new("Son of Adam", "Commit your first sin", "Every son of Adam sins and the best are those who repent often (at-tawwaboon). [Tirmidhi]"),
