@@ -71,7 +71,7 @@ class Achievement
   end
 
   def image
-    return "#{name.downcase.gsub(' ', '-').gsub('!', '')}.png"
+    return "#{name.downcase.gsub(' ', '-').gsub('!', '').gsub("'", '')}.png"
   end
 end
 
