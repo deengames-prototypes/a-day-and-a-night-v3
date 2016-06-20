@@ -17,6 +17,18 @@ require 'Scripts/extensions/system_options'
 require 'Scripts/extensions/Victor-Engine-Basic-Module'
 require 'Scripts/extensions/Victor-Engine-Light-Effects'
 
+Logger.log("---------- Started a new session ----------")
+
+# Log when the user shuts down (Alt-F4 etc. can't be trapped)
+class Scene_Title 
+  alias :old_command_shutdown :command_shutdown
+  
+  def command_shutdown
+	Logger.log("---------- Finished session ----------")
+    old_command_shutdown	
+  end
+end
+
 DEFAULT_ACHIEVEMENTS = [
     Achievement.new("Son of Adam", "Commit your first sin", "Every son of Adam sins and the best are those who repent often (at-tawwaboon). [Tirmidhi]"),
     Achievement.new("Seeker of Knowledge", "Seek a path of religious knowledge", "Whoever follows a path to seek knowledge, Allah will make the path of Jannah easy to him. The angels lower their wings over the seeker of knowledge [...] even the fish in the depth of the oceans seek forgiveness for him. [Abu Dawud]"),
