@@ -45,7 +45,6 @@ module DataManager
   end
   
   def self.setup_new_game    
-    Logger.log(Kernel.caller)
     old_setup_new_game
     @contents = {}
     @callback.call(@contents)

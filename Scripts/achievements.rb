@@ -27,8 +27,6 @@ class AchievementManager
     else
       @@achievements = default_achievements
     end
-
-    Logger.log "Achievements are #{@@achievements}"
   end
 
   def self.save

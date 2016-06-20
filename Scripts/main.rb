@@ -125,7 +125,6 @@ class AdaanV3
     x = map_data[:x]
     y = map_data[:y]
 
-    Logger.log("TRANSFERRING TO #{map_id} at #{x}, #{y}")
     $game_player.reserve_transfer(map_id, x, y)
     Fiber.yield while $game_player.transfer?
   end
