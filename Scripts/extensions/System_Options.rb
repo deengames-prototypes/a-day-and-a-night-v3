@@ -71,7 +71,7 @@ module YEA
     # messages, or animations by default.
     #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     COMMAND_NAME = "System"      # Command name used to replace Game End.
-    DEFAULT_AUTODASH   = false    # Enable automatic dashing by default?
+    DEFAULT_AUTODASH   = true    # Enable automatic dashing by default?
     DEFAULT_INSTANTMSG = false   # Enable instant message text by default?
     DEFAULT_ANIMATIONS = true    # Enable battle animations by default?
     

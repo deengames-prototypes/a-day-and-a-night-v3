@@ -38,7 +38,9 @@ DEFAULT_ACHIEVEMENTS = [
     Achievement.new("Past and Present", "Rediscover why you're here", "Except for those who repent, believe and do righteous work. For them Allah will replace their evil deeds with good. And ever is Allah Forgiving and Merciful. [Surat Al-Furqan, 25:70]"),
     Achievement.new("You Monster!", "Side with poachers", "A woman entered the Fire because of a cat which she had tied, neither giving it food nor setting it free to eat from the vermin of the earth. [Bukhari]"),
     Achievement.new("Animal Saviour", "Save an animal's life", "A dog was going round a well and was about to die of thirst. A prostitute saw it, took off her shoe, and use it to draw out water for the dog. Allah forgave her because of that good deed. [Bukhari]"),
-    Achievement.new("Magician's Apprentice", "Commit shirk by sacrificing to a jinn", "Whoever ties a knot and blows on it, he has practiced magic; and whoever practices magic, he has committed shirk; and whoever hangs up something (as an amulet) will be entrusted to it (to protect him). [An-Nasaai]")
+    Achievement.new("Magician's Apprentice", "Commit shirk by sacrificing to a jinn", "Whoever ties a knot and blows on it, he has practiced magic; and whoever practices magic, he has committed shirk; and whoever hangs up something (as an amulet) will be entrusted to it (to protect him). [An-Nasaai]"),
+    Achievement.new("Footsteps of Ibrahim", "Frame one statue for destroying others", "Prophet Ibrahim broke his people's idols into fragments, except a large one, and blamed it for the deed. His people almost recanted on their beliefs, but instead decided to burn him alive. [Surah Anbiyaa, 21:57-68]"),
+    
 ]
 
 AchievementManager.initialize(DEFAULT_ACHIEVEMENTS)
