@@ -128,3 +128,31 @@ class Scene_Shop
     Logger.log("Bought #{number} of #{@item.name}")
   end
 end
+
+# Capture game over, including points totals
+class Scene_Gameover
+  alias :pa_start :start
+  
+  def start
+    pa_start
+  
+    points = PointsSystem.get_points_scored    
+    good_deeds = points.select { |p| p.points >= 0 }
+    positive_points = 0
+    good_deeds.each do |p|
+      positive_points += p.points
+    end
+    
+    bad_deeds = points.select { |p| p.points < 0 }
+    negative_points = 0
+    bad_deeds.each do |p|
+      negative_points += p.points
+    end
+    
+    
+    time = "#{GameTime.hour?}:#{GameTime.min?}"
+    play_time = $game_system.playtime_s
+    
+    Logger.log("Game over at #{time} after #{play_time}; #{positive_points} vs #{negative_points}")
+  end
+end
