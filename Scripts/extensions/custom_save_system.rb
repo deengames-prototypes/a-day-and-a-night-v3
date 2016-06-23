@@ -14,13 +14,13 @@ module DataManager
   
   # Loading
   class << self
-    alias :old_extract_save_contents :extract_save_contents
-    alias :old_make_save_contents :make_save_contents
-    alias :old_setup_new_game :setup_new_game
+    alias :css_extract_save_contents :extract_save_contents
+    alias :css_make_save_contents :make_save_contents
+    alias :css_setup_new_game :setup_new_game
   end
     
   def self.extract_save_contents(contents)
-    old_extract_save_contents(contents)
+    css_extract_save_contents(contents)
     
     contents.each do |k, v|
 	    @contents[k] = contents[k]
@@ -36,7 +36,7 @@ module DataManager
 
   # Saving
   def self.make_save_contents
-    contents = old_make_save_contents
+    contents = css_make_save_contents
     @contents.each do |key, value|
       contents[key] = value
     end
@@ -45,7 +45,7 @@ module DataManager
   end
   
   def self.setup_new_game    
-    old_setup_new_game
+    css_setup_new_game
     @contents = {}
     @callback.call(@contents)
   end

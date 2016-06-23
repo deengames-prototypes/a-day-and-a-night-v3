@@ -16,18 +16,7 @@ require 'Scripts/extensions/super-simple-mouse-script'
 require 'Scripts/extensions/system_options'
 require 'Scripts/extensions/Victor-Engine-Basic-Module'
 require 'Scripts/extensions/Victor-Engine-Light-Effects'
-
-Logger.log("---------- Started a new session ----------")
-
-# Log when the user shuts down (Alt-F4 etc. can't be trapped)
-class Scene_Title 
-  alias :old_command_shutdown :command_shutdown
-  
-  def command_shutdown
-	Logger.log("---------- Finished session ----------")
-    old_command_shutdown	
-  end
-end
+require 'Scripts/proton_analytics'
 
 DEFAULT_ACHIEVEMENTS = [
 

@@ -31,7 +31,7 @@ module PointsSystem
   
   # End variables. Please don't touch anything below this line.
   
-  @@add_points_callback = nil
+  @@add_points_callbacks = []
   
   # Prepare/Register for Saving.
   DataManager.setup(Proc.new do |data|
@@ -39,7 +39,7 @@ module PointsSystem
   end)
   
   def self.on_add_points(proc)
-    @@add_points_callback = proc
+    @@add_points_callbacks << proc
   end
 
   def self.add_points(event, score)
@@ -51,7 +51,9 @@ module PointsSystem
       play_sound(:negative)
     end
     
-    @@add_points_callback.call(event, score) unless @@add_points_callback.nil?
+    @@add_points_callbacks.each do |p|
+      p.call(event, score)
+    end
   end
   
   def self.total_points
