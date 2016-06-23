@@ -110,3 +110,21 @@ module BattleManager
     pa_process_escape
   end  
 end
+
+# Capture when the user engages a store and buys something
+class Scene_Shop
+  
+  alias :pa_start :start
+  alias :pa_do_buy :do_buy
+  
+  def start
+    pa_start
+    Logger.log("$ Entered shop")
+  end
+  
+  
+  def do_buy(number)
+    pa_do_buy(number)
+    Logger.log("Bought #{number} of #{@item.name}")
+  end
+end
