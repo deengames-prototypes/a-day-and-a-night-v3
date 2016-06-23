@@ -2,6 +2,25 @@
 # This file captures all the overrides, callbacks, etc. to accomplish that, as well as
 # exposing easy calls for other stuff (like choices).
 
+# External API for capturing strings
+module ProtonAnalytics
+  def self.capture(message)
+    Logger.log(message)
+  end
+end
+
+# Log time, too
+class Logger
+  class << self
+    alias :pa_log :log
+  end
+  
+  def self.log(message)
+    time = "#{GameTime.hour?}:#{GameTime.min?}"
+    pa_log("[#{time}] #{message}")
+  end
+end
+
 # Capture all points
 PointsSystem.on_add_points(Proc.new do |event, score|
   Logger.log("#{score} point(s): #{event}")
