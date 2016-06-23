@@ -49,9 +49,10 @@ module DataManager
   end
 end
 
+# Capture running the game
 Logger.log("---------- Started a new session ----------")
 
-# Log when the user shuts down (Alt-F4 etc. can't be trapped)
+# Capture when the user shuts down (Alt-F4 etc. can't be captured)
 module SceneManager 
 
   class << self
@@ -64,7 +65,7 @@ module SceneManager
   end
 end
 
-# Capture when the user goes to the achievements scene
+# Capture when the user goes to/from the achievements scene
 class AchievementsScene
   alias :pa_start :start
   alias :pa_terminate :terminate
@@ -78,4 +79,34 @@ class AchievementsScene
     Logger.log("* Left achievements screen")
     pa_terminate    
   end
+end
+
+# Capture when the user enters/exits a battle, and what the outcome was.
+module BattleManager
+  class << self
+    alias :pa_battle_start :battle_start
+    alias :pa_process_victory :process_victory
+    alias :pa_process_defeat :process_defeat
+    alias :pa_process_escape :process_escape
+  end
+  
+  def self.battle_start
+    Logger.log("! Battle: #{$game_troop.enemy_names}")
+    pa_battle_start
+  end
+  
+  def self.process_victory    
+    Logger.log("! Player won")
+    pa_process_victory
+  end
+  
+  def self.process_defeat
+    Logger.log("! Player lost")
+    pa_process_defeat
+  end
+  
+  def self.process_escape
+    Logger.log("! Player escaped")
+    pa_process_escape
+  end  
 end
