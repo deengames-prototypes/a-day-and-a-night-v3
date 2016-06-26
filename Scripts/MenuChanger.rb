@@ -14,6 +14,7 @@ class Scene_Menu < Scene_MenuBase
     original_create_command_window
 
     @command_window.set_handler(:achievements, method(:call_achievement_scene))
+    @command_window.set_handler(:deeds, method(:call_deeds_scene))
   end
 
   #--------------------------------------------------------------------------
@@ -21,6 +22,13 @@ class Scene_Menu < Scene_MenuBase
   #--------------------------------------------------------------------------
   def call_achievement_scene
     SceneManager.call(AchievementsScene)
+  end
+
+  #--------------------------------------------------------------------------
+  # * Custom Menu Methods
+  #--------------------------------------------------------------------------
+  def call_deeds_scene
+    SceneManager.call(Scene_Deeds)
   end
 end
 
@@ -33,5 +41,6 @@ class Window_MenuCommand < Window_Command
     old_add_original_commands
 
     add_command("Achievements", :achievements, true)
+    add_command("Deeds", :deeds, true)
   end
 end
