@@ -41,6 +41,6 @@ class Window_MenuCommand < Window_Command
     old_add_original_commands
 
     add_command("Achievements", :achievements, true)
-    add_command("Deeds", :deeds, true)
+    add_command("Muhasaba", :deeds, true)
   end
 end

@@ -9,17 +9,104 @@ class Scene_Deeds < Scene_ItemBase
   #--------------------------------------------------------------------------
   def start
     super
-    @selection_window = Window_DeedsSelection.new
-    @selection_window.set_handler(:cancel, method(:return_scene))
+    # position of selectionWindow
+    x = 40
+    y = 100
+    width = Graphics.width - 80
+    height = Graphics.height - 200
 
+    @selection_window = Window_DeedsSelection.new(x, y, width, height)
+    @selection_window.set_handler(:cancel, method(:return_scene))
     @selection_window.viewport = @viewport
+
+    @title_window = Window_Text.new(x, y - fitting_height(1), width, fitting_height(1), "Muhasaba (Accountability)")
+    @title_window.viewport = @viewport
+
+    @total_window = Window_DeedsTotal.new(x, y + height, width, fitting_height(1))
+    @total_window.viewport = @viewport
+  end
+
+  #--------------------------------------------------------------------------
+  # * Borrowed from Window_Base
+  #--------------------------------------------------------------------------
+  def fitting_height(line_number)
+    line_number * line_height + standard_padding * 2
+  end
+  def line_height
+    return 24
+  end
+  def standard_padding
+    return 12
+  end
+  #--------------------------------------------------------------------------
+  # * No More borrowing from Window_Base
+  #--------------------------------------------------------------------------
+end
+class Window_DeedsTotal < Window_Base
+  def initialize(x, y, width, height)
+    super(x, y, width, height)
+    @@width = width
+    refresh
+  end
+  def refresh
+    contents.clear
+
+    points = PointsSystem.total_points
+
+    preset = ''
+    postset = '\C[0]'
+    if points > 0
+      preset = '\C[3]+'
+    elsif points < 0
+      preset = '\C[2]'
+    end
+
+    draw_text_ex(0, 0, "Total")
+    total = "#{preset}#{points}#{postset}"
+
+    endOfWindowX = x + @@width - text_size(total).width + 24 # add 24 because preset/postset add "ghost" width
+    draw_text_ex(endOfWindowX, 0, total)
+  end
+  def open
+    super
+    refresh
+  end
+end
+
+class Window_Text < Window_Base
+  def initialize(x, y, width, height, value)
+    super(x, y, width, height)
+    @@width = width
+    @@height = height
+    @@value = value
+    refresh
+  end
+  def window_width
+    @@width
+  end
+  def window_height
+    @@height
+  end
+  def refresh
+    contents.clear
+    draw_text_ex(0, 0, @@value)
   end
 end
 
 class Window_DeedsSelection < Window_Command
 
-  def initialize()
-    super(40, 100)
+  def initialize(x, y, width, height)
+    @@width = width
+    @@height = height
+    super(x, y)
+  end
+
+  def window_width
+    @@width
+  end
+
+  def window_height
+    @@height
   end
 
   def make_command_list
@@ -38,14 +125,6 @@ class Window_DeedsSelection < Window_Command
     #@@deeds[index]
   end
 
-  def window_width
-    return Graphics.width - 80
-  end
-
-  def window_height
-    return Graphics.height - 200
-  end
-
   #--------------------------------------------------------------------------
   # * Draw Item
   #--------------------------------------------------------------------------
@@ -56,16 +135,18 @@ class Window_DeedsSelection < Window_Command
     change_color(normal_color, command_enabled?(index))
 
     preset = ''
-    postset = ''
+    postset = '\C[0]'
     if deed.points > 0
       preset = '\C[3]+'
-      postset = '\C[0]'
     elsif deed.points < 0
       preset = '\C[2]'
-      postset = '\C[0]'
     end
 
-    draw_text_ex(rectangle.x, rectangle.y, "#{preset}#{deed.points}#{postset} #{deed.event}")
+    draw_text_ex(rectangle.x, rectangle.y, "#{deed.event}")
+
+    total = "#{preset}#{deed.points}#{postset}"
+    endOfWindowX = x + @@width - text_size(total).width + 24 # add 24 because preset/postset add "ghost" width
+    draw_text_ex(endOfWindowX, rectangle.y, total)
   end
 
   def open
@@ -83,7 +164,7 @@ end
 #
 class Window_DeedsSummary < Window_Base
   def initialize
-    super(0, 0, window_width, fitting_height(3))
+    super(0, 0, window_width, fitting_height(4) + 16)
     refresh
   end
   def window_width
@@ -112,7 +193,7 @@ class Window_DeedsSummary < Window_Base
   end
   def refresh
     contents.clear
-    draw_text_ex(x, y, "Deeds\n#{value_good}\n#{value_bad}")
+    draw_text_ex(x, y, "Deeds Summary:\n#{value_good}\n#{value_bad}")
   end
   def value_bad
     bad = total_bad_deeds.to_s
