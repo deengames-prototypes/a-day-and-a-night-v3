@@ -72,6 +72,9 @@ end)
 
 class AdaanV3
   STARTED_SWIMMING_VARIABLE = 1
+  AFTERNOON_WARNING_SWITCH = 29
+  EARLY_NIGHT_WARNING_SWITCH = 30
+  
   DROWN_AFTER_SECONDS = 15
   VARIABLE_WITH_FLASHBACK_NUMBER = 2
   
@@ -83,8 +86,8 @@ class AdaanV3
   ]
 
   def self.is_game_over?
-    # midnight
-    return GameTime.day? > 1 #&& GameTime.hour? >= 5
+    # 5am the next day
+    return GameTime.day? > 1 && GameTime.hour? >= 5
   end
 
   def self.is_drowned?
@@ -92,6 +95,18 @@ class AdaanV3
     return $game_variables[STARTED_SWIMMING_VARIABLE] != 0 && Time.new - $game_variables[STARTED_SWIMMING_VARIABLE] >= DROWN_AFTER_SECONDS
   end
 
+  def self.show_time_warnings
+    if GameTime.hour? >= 17 && $game_switches[AFTERNOON_WARNING_SWITCH] == false # 5pm = 50% through the game
+      $game_switches[AFTERNOON_WARNING_SWITCH] = true
+      Game_Interpreter.instance.show_message("\\af[1]\\N[1]: The day progresses quickly. I must not lose focus.")    
+    end
+    
+    if GameTime.hour? >= 23 && $game_switches[EARLY_NIGHT_WARNING_SWITCH] == false # 5pm = 50% through the game
+      $game_switches[EARLY_NIGHT_WARNING_SWITCH] = true
+      Game_Interpreter.instance.show_message("\\af[1]\\N[1]: Night falls. I must conclude my deeds quickly. I leave at first light tomorrow morning (5am).")    
+    end
+  end
+  
   # returns the salah name whose time it is now, or nil
   def self.current_masjid_salah
     return 'Fajr' if GameTime.hour? == 5 && GameTime.min? >= 30 && GameTime.min? <= 50
