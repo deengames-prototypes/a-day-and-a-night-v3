@@ -142,7 +142,7 @@ BATTLE_TINT = false
  
 #Time it takes for a second (or minute) to pass, in frames by default
 #(Frame rate is 60 frames per second)
-DEFAULT_TIMELAPSE = 75 # 30m of real time elapse 24h of game time
+DEFAULT_TIMELAPSE = 90
 #Variable ID containing the current speed of time!
 TIMELAPSE_VARIABLE = 0
 #Whether to use seconds or not
