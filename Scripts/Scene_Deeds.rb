@@ -19,7 +19,7 @@ class Scene_Deeds < Scene_ItemBase
     @selection_window.set_handler(:cancel, method(:return_scene))
     @selection_window.viewport = @viewport
 
-    @title_window = Window_Text.new(x, y - fitting_height(1), width, fitting_height(1), "Muhasaba (Accountability)")
+    @title_window = Window_Text.new(x, y - fitting_height(1), width, fitting_height(1), "Muhasaba (Self-Accountability)")
     @title_window.viewport = @viewport
 
     @total_window = Window_DeedsTotal.new(x, y + height, width, fitting_height(1))
@@ -55,8 +55,8 @@ class Window_DeedsTotal < Window_Base
 
     preset = ''
     postset = '\C[0]'
-    if points > 0
-      preset = '\C[3]+'
+    if points >= 0
+      preset = '\C[4]+'
     elsif points < 0
       preset = '\C[2]'
     end
@@ -115,14 +115,12 @@ class Window_DeedsSelection < Window_Command
 
     i = 0
     PointsSystem.get_points_scored.each do |key, value|
-      #@@deeds.push(' (' + value.to_s + ')' + key.to_s)
       add_command(key, (value.to_s).to_sym)
     end
   end
 
   def get_deed(index)
     PointsSystem.get_points_scored[index]
-    #@@deeds[index]
   end
 
   #--------------------------------------------------------------------------
@@ -136,17 +134,16 @@ class Window_DeedsSelection < Window_Command
 
     preset = ''
     postset = '\C[0]'
-    if deed.points > 0
-      preset = '\C[3]+'
+    if deed.points >= 0
+      preset = '\C[4]'
     elsif deed.points < 0
       preset = '\C[2]'
     end
 
-    draw_text_ex(rectangle.x, rectangle.y, "#{deed.event}")
+    draw_text_ex(rectangle.x, rectangle.y, "#{preset}#{deed.event}#{postset}")
 
-    total = "#{preset}#{deed.points}#{postset}"
-    endOfWindowX = x + @@width - text_size(total).width + 24 # add 24 because preset/postset add "ghost" width
-    draw_text_ex(endOfWindowX, rectangle.y, total)
+    endOfWindowX = x + @@width + 24 # add 24 because preset/postset add "ghost" width
+    draw_text_ex(endOfWindowX, rectangle.y, 0)
   end
 
   def open
@@ -193,7 +190,7 @@ class Window_DeedsSummary < Window_Base
   end
   def refresh
     contents.clear
-    draw_text_ex(x, y, "Deeds Summary:\n#{value_good}\n#{value_bad}")
+    draw_text_ex(x, y, "Deeds:\n#{value_good}\n#{value_bad}")
   end
   def value_bad
     bad = total_bad_deeds.to_s
