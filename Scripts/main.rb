@@ -110,11 +110,11 @@ class AdaanV3
   
   # returns the salah name whose time it is now, or nil
   def self.current_masjid_salah
-    return 'Fajr' if GameTime.hour? == 5 && GameTime.min? >= 30 && GameTime.min? <= 50
-    return 'Dhur' if GameTime.hour? == 13 && GameTime.min? >= 15 &&  GameTime.min? <= 35
-    return 'Asr' if GameTime.hour? == 17 && GameTime.min? >= 20 && GameTime.min? <= 40
-    return 'Maghrib' if GameTime.hour? == 20 && GameTime.min? >= 43 && GameTime.min? <= 59
-    return 'Isha' if GameTime.hour? == 22 && GameTime.min? >= 25 && GameTime.min? <= 45
+    return 'Fajr' if GameTime.hour? == 5 && GameTime.min? >= 30 && GameTime.min? <= 40
+    return 'Dhur' if GameTime.hour? == 13 && GameTime.min? >= 15 &&  GameTime.min? <= 25
+    return 'Asr' if GameTime.hour? == 17 && GameTime.min? >= 20 && GameTime.min? <= 30
+    return 'Maghrib' if GameTime.hour? == 20 && GameTime.min? >= 43 && GameTime.min? <= 53
+    return 'Isha' if GameTime.hour? == 22 && GameTime.min? >= 25 && GameTime.min? <= 35
     return nil
   end
 
