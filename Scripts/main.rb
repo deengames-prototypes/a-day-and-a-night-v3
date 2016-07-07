@@ -75,6 +75,7 @@ class AdaanV3
   STARTED_SWIMMING_VARIABLE = 1
   AFTERNOON_WARNING_SWITCH = 29
   EARLY_NIGHT_WARNING_SWITCH = 30
+  JINN_POWER_SWITCH = 12
   
   DROWN_AFTER_SECONDS = 15
   VARIABLE_WITH_FLASHBACK_NUMBER = 2
@@ -124,6 +125,11 @@ class AdaanV3
 
   # Teleport you to the map with the appropriate flashback number (variable #2)
   def self.show_flashback
+  
+    # Deactivate jinni super-speed
+    $game_player.move_speed = 4
+    $game_player.move_frequency = 3
+    
     @@source_map = {:id => $game_map.map_id, :x => $game_player.x, :y => $game_player.y }
     map_data = FLASHBACK_MAPS[$game_variables[VARIABLE_WITH_FLASHBACK_NUMBER]]
 
@@ -137,6 +143,12 @@ class AdaanV3
   end
 
   def self.end_flashback
+    # Reactivate jinni power if it's active
+    if $game_switches[JINN_POWER_SWITCH] == true
+      $game_player.move_speed = 5
+      $game_player.move_frequency = 4
+    end
+    
     $game_map.screen.start_tone_change(Tone.new(0, 0, 0, 0), 30) # undo grey-out
     transfer_to(@@source_map)
 
