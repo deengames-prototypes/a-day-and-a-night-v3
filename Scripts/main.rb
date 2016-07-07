@@ -1,9 +1,11 @@
 API_ROOT = 'Scripts/vx-ace-api'
+
 require 'Scripts/vx-ace-api/vx_ace_api'
 require 'Scripts/achievements'
 require 'Scripts/image_title_menu'
 require 'Scripts/Scene_Deeds.rb'
 require 'Scripts/MenuChanger.rb'
+
 require 'Scripts/extensions/Event_Window'
 require 'Scripts/extensions/custom_save_system'
 require 'Scripts/extensions/points_system'
@@ -18,8 +20,9 @@ require 'Scripts/extensions/super-simple-mouse-script'
 require 'Scripts/extensions/system_options'
 require 'Scripts/extensions/khas_awesome_lighting_effects'
 require 'Scripts/extensions/heal_on_level_up'
-require 'Scripts/proton_analytics'
+require 'Scripts/extensions/Ace_Message_System'
 
+require 'Scripts/proton_analytics'
 
 DEFAULT_ACHIEVEMENTS = [
 
@@ -138,7 +141,7 @@ class AdaanV3
 
     if !map_data.nil?
       $game_map.screen.start_tone_change(Tone.new(0, 0, 0, 255), 30) # grey out
-      transfer_to(map_data)
+      transfer_to(map_data, 0) # face up
     end
   end
 
@@ -158,12 +161,14 @@ class AdaanV3
 
   private
 
-  def self.transfer_to(map_data)
+  # direction = [0246], nil = retain
+  def self.transfer_to(map_data, direction = nil)
     map_id = map_data[:id]
     x = map_data[:x]
     y = map_data[:y]
 
-    $game_player.reserve_transfer(map_id, x, y)
+    # 0 = face up
+    $game_player.reserve_transfer(map_id, x, y, direction)
     Fiber.yield while $game_player.transfer?
   end
 end
