@@ -1,0 +1,3 @@
+[submodule "Scripts/vx-ace-api"]
+	path = Scripts/vx-ace-api
+	url = https://github.com/ashes999/vx-ace-api.git
