@@ -9,9 +9,9 @@ Created by:
 @silatsaif (GitHub)
 @wulf (GitHub)
 
-=========================
-Some scripts provided by:
-=========================
+====================
+Includes scripts by:
+====================
 
 GaryCXJk
 Haris1112
@@ -24,9 +24,9 @@ Yanfly
 Yato
 ♥SOURCE♥
 
-============
-Some art by:
-============
+================
+Includes art by:
+================
 
 ChrisL21
 Daniele De Santis
