@@ -21,6 +21,8 @@ require 'Scripts/extensions/system_options'
 require 'Scripts/extensions/khas_awesome_lighting_effects'
 require 'Scripts/extensions/heal_on_level_up'
 require 'Scripts/extensions/Ace_Message_System'
+require 'Scripts/extensions/yanfly_enemy_hp_bars'
+require 'Scripts/extensions/yanfly_enemy_hp_bars_always_show'
 
 require 'Scripts/proton_analytics'
 
