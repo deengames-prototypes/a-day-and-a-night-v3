@@ -1,9 +1,10 @@
 # Source: http://www.rpgmakervxace.net/topic/9758-garycxjk-hacked-together-credits-script/
 # Modified to return to the title screen if you set RETURN_TO_TITLE to true
+# Also expects an image file called credits-background.png in Graphics/Pictures.
 #==============================================================================
 # 
 # GaryCXJk - Hacked Together Credits Script v1.00
-# * Last Updated: 2012.12.28
+# * Last Updated: 2016.07.08
 # * Level: Easy
 # * Requires: N/A
 #
@@ -195,9 +196,9 @@ module CXJ
     # General settings
     BASE_HEIGHT = 24                            # Base line height
     TEXT_COLOR = Color.new(255, 255, 255, 255)  # Default color
-    DEFAULT_DURATION = 10                       # Duration of sequence in secs
+    DEFAULT_DURATION = 20                       # Duration of sequence in secs
     DEFAULT_SCROLL_DURATION = 0                 # Scoll duration in secs
-    DEFAULT_SPEED = 0.75                        # Scroll speed
+    DEFAULT_SPEED = 1                           # Scroll speed
     ALLOW_MANUAL_CREDITS_CLOSE = true           # Manually close Scene_Credits?
     RETURN_TO_TITLE = true						          # Automatically return to the title when we're done
 	  BGM_TO_PLAY = 'yusuf-islam-adhaan'			    # Set to the filename (without extension) to start; nil for no audio
@@ -727,6 +728,7 @@ class Scene_Credits < Scene_Base
   #--------------------------------------------------------------------------
   def start
     super
+    create_background
     @window_credits = Window_Credits.new
   end
   
@@ -750,6 +752,18 @@ class Scene_Credits < Scene_Base
         Graphics.brightness = 255
       end
     end
+  end
+  
+  def terminate
+    @background.bitmap.dispose
+    @background.dispose
+  end
+  
+  private
+  
+  def create_background
+    @background = Sprite.new
+    @background.bitmap = Cache.picture('credits-background.png')
   end
 end
 
