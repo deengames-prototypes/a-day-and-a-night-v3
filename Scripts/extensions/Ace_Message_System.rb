@@ -202,7 +202,7 @@ module YEA
     # This array constant determines the fonts used. If the first font does not
     # exist on the player's computer, the next font in question will be used
     # in place instead and so on.	
-    MESSAGE_WINDOW_FONT_NAME = ["VL Gothic"]
+    MESSAGE_WINDOW_FONT_NAME = ["Lato Regular"]
     
     # These adjust the other settings regarding the way the game font appears
     # including the font size, whether or not the font is bolded by default,
