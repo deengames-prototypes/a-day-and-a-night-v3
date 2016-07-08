@@ -23,6 +23,7 @@ require 'Scripts/extensions/heal_on_level_up'
 require 'Scripts/extensions/Ace_Message_System'
 require 'Scripts/extensions/yanfly_enemy_hp_bars'
 require 'Scripts/extensions/yanfly_enemy_hp_bars_always_show'
+require 'Scripts/extensions/GaryCXJk_Hacked_Together_Credits_Script'
 
 require 'Scripts/proton_analytics'
 

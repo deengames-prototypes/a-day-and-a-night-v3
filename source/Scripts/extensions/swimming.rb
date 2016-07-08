@@ -1,3 +1,4 @@
+# http://www.rpgmakercentral.com/topic/27243-swimming-script/
 class Game_Player < Game_Character
   SWIMMING_TAG = 1 # Terrain tag indicating where we can swim
   PLAYER_IS_SWIMMING_SWITCH = 2 # Switch indicating that we're swimming
