@@ -24,6 +24,7 @@ require 'Scripts/extensions/Ace_Message_System'
 require 'Scripts/extensions/yanfly_enemy_hp_bars'
 require 'Scripts/extensions/yanfly_enemy_hp_bars_always_show'
 require 'Scripts/extensions/GaryCXJk_Hacked_Together_Credits_Script'
+require 'Scripts/extensions/battle_trigger_bar'
 
 require 'Scripts/proton_analytics'
 
