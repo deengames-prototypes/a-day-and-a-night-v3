@@ -9,15 +9,10 @@
 
 class Scene_Battle < Scene_Base
   
-  alias :trigger_turn_start :turn_start  
-  def turn_start
-    trigger_turn_start    
-  end
+  # How long the bar is on-screen.
+  TRIGGER_TIME_IN_SECONDS = 0.5
   
-  alias :trigger_turn_end :turn_end
-  def turn_end
-    trigger_turn_end
-  end
+  ####### Do not change codez below unless you know what you are doing! #######
   
   alias :trigger_post_start :post_start
   def post_start
@@ -34,6 +29,36 @@ class Scene_Battle < Scene_Base
     @trigger = create_image('trigger_bar_trigger')
     @trigger.x = @bar.x
     @trigger.y = @bar.y - @trigger.height
+    
+    hide_bar
+    
+    @trigger_velocity = @bar.width / (60 * TRIGGER_TIME_IN_SECONDS)
+  end  
+  
+  alias :trigger_execute_action :execute_action  
+  def execute_action    
+    attacker = @subject
+    action = attacker.current_action
+    @trigger.x = @bar.x
+    if $game_party.members.include?(attacker) && !action.nil? && action.attack?      
+      show_bar
+      @trigger_moving = true
+    end
+    trigger_execute_action
+  end
+  
+  alias :trigger_update_basic :update_basic
+  def update_basic
+    @trigger.x += @trigger_velocity if @trigger_moving == true
+    @trigger.opacity = 0 if @trigger.x >= @bar.x + @bar.width
+    trigger_update_basic
+  end
+  
+  alias :trigger_process_action_end :process_action_end
+  def process_action_end
+    @trigger_moving = false
+    hide_bar
+    trigger_process_action_end    
   end
   
   alias :trigger_terminate :terminate
@@ -54,5 +79,17 @@ class Scene_Battle < Scene_Base
   def dispose_image(image)
     image.bitmap.dispose
     image.dispose
+  end
+  
+  def show_bar
+    @bar.opacity = 255
+    @hit_area.opacity = 255
+    @trigger.opacity = 255
+  end
+  
+  def hide_bar
+    @bar.opacity = 0
+    @hit_area.opacity = 0
+    @trigger.opacity = 0
   end
 end
