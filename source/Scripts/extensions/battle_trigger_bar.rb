@@ -17,6 +17,8 @@ class Scene_Battle < Scene_Base
   
   ####### Do not change codez below unless you know what you are doing! #######
   
+  NORMAL_ATTACK_DATA_ID = 0
+  
   alias :trigger_post_start :post_start
   def post_start
     trigger_post_start
@@ -61,15 +63,24 @@ class Scene_Battle < Scene_Base
         
         if is_hit
           attacker = @subject
-          action = attacker.current_action
-          @original_damage = {:attacker => attacker, :damage => action.item.damage, :formula => action.item.damage.formula}
+          action = attacker.current_action          
+          effects = action.item.effects          
+          @original_damage = {:attacker => attacker, :item => action.item, :damage => action.item.damage, :formula => action.item.damage.formula, :effects => effects}
           
           if ($game_party.members.include?(attacker))
             # Player attacking: 1.5x damage
             action.item.damage.formula = "1.5 * (#{action.item.damage.formula})"
+            # Force any status effects
+            effects.each do |e|
+              e.value1 = 1 # 100% probability
+            end              
           else
             # Monster attacking: 0.5x damage
             action.item.damage.formula = "0.5 * (#{action.item.damage.formula})"
+            # Nullify any status effects
+            effects.each do |e|
+              e.value1 = 0 unless e.data_id = NORMAL_ATTACK_DATA_ID # 0% probability except for "Normal Attack"
+            end
           end
           
           Logger.log("Damage formula is #{action.item.damage.formula}")
@@ -140,7 +151,8 @@ class Scene_Battle < Scene_Base
   def reset_damage
     if !@original_damage.nil?
       @original_damage[:damage].formula = @original_damage[:formula]
-      Logger.log("Restore to #{@original_damage[:formula]}")
+      @original_damage[:item].effects = @original_damage[:effects]      
+      Logger.log("Restore to #{@original_damage[:item].effects}")
     end
   end
 end
