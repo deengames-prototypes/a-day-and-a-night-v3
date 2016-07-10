@@ -46,6 +46,7 @@ class Scene_Battle < Scene_Base
     if $game_party.members.include?(attacker) && !action.nil? && action.attack?      
       show_bar
       @trigger_moving = true
+      @trigger_start = Time.now
     end
     trigger_execute_action
   end
@@ -64,7 +65,14 @@ class Scene_Battle < Scene_Base
       end
     end
     @trigger.opacity = 0 if @trigger.x >= @bar.x + @bar.width
-    trigger_update_basic
+    # Don't progress battle if the bar is visible
+    if @trigger_moving == true && (Time.now - @trigger_start) <= TRIGGER_TIME_IN_SECONDS
+      # Selective codez from Scene_Battle.update
+      Graphics.update
+      Input.update
+    else
+      trigger_update_basic 
+    end
   end
   
   alias :trigger_process_action_end :process_action_end
