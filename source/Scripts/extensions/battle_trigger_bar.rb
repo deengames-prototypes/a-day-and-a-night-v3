@@ -43,7 +43,7 @@ class Scene_Battle < Scene_Base
     attacker = @subject
     action = attacker.current_action
     @trigger.x = @bar.x
-    if $game_party.members.include?(attacker) && !action.nil? && action.attack?      
+    if !action.nil? && action.attack?      
       show_bar
       @trigger_moving = true
       @trigger_start = Time.now
@@ -55,7 +55,7 @@ class Scene_Battle < Scene_Base
   def update_basic    
     if @trigger_moving == true
       @trigger.x += @trigger_velocity
-      if Input.key_pressed?(:SPACE)
+      if Input.key_pressed?(:SPACE) || Input.key_pressed?(:ENTER)
         # Visual feedback: hit or miss
         is_hit = @trigger.x >= @hit_area.x && @trigger.x + @trigger.width <= @hit_area.x + @hit_area.width
         
@@ -63,11 +63,18 @@ class Scene_Battle < Scene_Base
           attacker = @subject
           action = attacker.current_action
           @original_damage = {:attacker => attacker, :damage => action.item.damage, :formula => action.item.damage.formula}
-          action.item.damage.formula = "1.5 * (#{action.item.damage.formula})" 
-          Logger.log("HIT: F=#{action.item.damage.formula}")
+          
+          if ($game_party.members.include?(attacker))
+            # Player attacking: 1.5x damage
+            action.item.damage.formula = "1.5 * (#{action.item.damage.formula})"
+          else
+            # Monster attacking: 0.5x damage
+            action.item.damage.formula = "0.5 * (#{action.item.damage.formula})"
+          end
+          
+          Logger.log("Damage formula is #{action.item.damage.formula}")
         else
           @original_damage = nil
-          Logger.log("Miss: F=#{original_damage[:formula]}")
         end
         
         # No more moving, kthxbye
@@ -132,8 +139,8 @@ class Scene_Battle < Scene_Base
   
   def reset_damage
     if !@original_damage.nil?
-      @original_damage[:damage].formula = @original_damage[:formula] 
-      Logger.log("Restored: F=#{@original_damage[:damage].formula}")
+      @original_damage[:damage].formula = @original_damage[:formula]
+      Logger.log("Restore to #{@original_damage[:formula]}")
     end
   end
 end
