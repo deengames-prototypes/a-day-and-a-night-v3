@@ -58,14 +58,26 @@ class Scene_Battle < Scene_Base
       if Input.key_pressed?(:SPACE)
         # Visual feedback: hit or miss
         is_hit = @trigger.x >= @hit_area.x && @trigger.x + @trigger.width <= @hit_area.x + @hit_area.width
-        Logger.log("Hit? #{is_hit}")
+        
+        if is_hit
+          attacker = @subject
+          action = attacker.current_action
+          @original_damage = {:attacker => attacker, :damage => action.item.damage, :formula => action.item.damage.formula}
+          action.item.damage.formula = "1.5 * (#{action.item.damage.formula})" 
+          Logger.log("HIT: F=#{action.item.damage.formula}")
+        else
+          @original_damage = nil
+          Logger.log("Miss: F=#{original_damage[:formula]}")
+        end
+        
         # No more moving, kthxbye
         @trigger_moving = false
         hide_bar
       end
     end
+    
     @trigger.opacity = 0 if @trigger.x >= @bar.x + @bar.width
-    # Don't progress battle if the bar is visible
+    # Don't progress battle (fight animations) if the bar is visible
     if @trigger_moving == true && (Time.now - @trigger_start) <= TRIGGER_TIME_IN_SECONDS
       # Selective codez from Scene_Battle.update
       Graphics.update
@@ -79,14 +91,17 @@ class Scene_Battle < Scene_Base
   def process_action_end
     @trigger_moving = false
     hide_bar
-    trigger_process_action_end    
+    trigger_process_action_end   
+    # Reset damage on this action
+    reset_damage
   end
   
   alias :trigger_terminate :terminate
   def terminate
+    reset_damage
     dispose_image(@bar)
     dispose_image(@hit_area)
-    dispose_image(@trigger)
+    dispose_image(@trigger)    
     trigger_terminate
   end
   
@@ -113,5 +128,12 @@ class Scene_Battle < Scene_Base
     @bar.opacity = 0
     @hit_area.opacity = 0
     @trigger.opacity = 0
+  end
+  
+  def reset_damage
+    if !@original_damage.nil?
+      @original_damage[:damage].formula = @original_damage[:formula] 
+      Logger.log("Restored: F=#{@original_damage[:damage].formula}")
+    end
   end
 end
