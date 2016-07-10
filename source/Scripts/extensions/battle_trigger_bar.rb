@@ -2,6 +2,9 @@
 # Trigger Bar: adds a "trigger" bar and you press to attack at the right time
 # Doing so causes certain effects (1.5x damage on attack, 0.5x damage on defend,
 # apply status effect on attack, nullify status effect on defend).
+#
+# Requires Yanfly's Keyboard Input script.
+# Only tested with Yanfly's battle engine (but that shouldn't matter).
 # 
 # Version: 1.0
 # Author: ashes999 (ashes999@yahoo.com)
@@ -10,7 +13,7 @@
 class Scene_Battle < Scene_Base
   
   # How long the bar is on-screen.
-  TRIGGER_TIME_IN_SECONDS = 0.5
+  TRIGGER_TIME_IN_SECONDS = 0.75
   
   ####### Do not change codez below unless you know what you are doing! #######
   
@@ -48,8 +51,18 @@ class Scene_Battle < Scene_Base
   end
   
   alias :trigger_update_basic :update_basic
-  def update_basic
-    @trigger.x += @trigger_velocity if @trigger_moving == true
+  def update_basic    
+    if @trigger_moving == true
+      @trigger.x += @trigger_velocity
+      if Input.key_pressed?(:SPACE)
+        # Visual feedback: hit or miss
+        is_hit = @trigger.x >= @hit_area.x && @trigger.x + @trigger.width <= @hit_area.x + @hit_area.width
+        Logger.log("Hit? #{is_hit}")
+        # No more moving, kthxbye
+        @trigger_moving = false
+        hide_bar
+      end
+    end
     @trigger.opacity = 0 if @trigger.x >= @bar.x + @bar.width
     trigger_update_basic
   end
@@ -66,6 +79,7 @@ class Scene_Battle < Scene_Base
     dispose_image(@bar)
     dispose_image(@hit_area)
     dispose_image(@trigger)
+    trigger_terminate
   end
   
   private
