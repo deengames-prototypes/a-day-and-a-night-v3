@@ -61,8 +61,8 @@ $imported["YEA-SystemOptions"] = true
 #==============================================================================
 
 module YEA
-  module SYSTEM
-    
+  module SYSTEM	
+	
     #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     # - General Setting -
     #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -104,9 +104,9 @@ module YEA
     # 
     #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     COMMANDS =[
-      :window_red,   # Changes the red tone for all windows.
-      :window_grn,   # Changes the green tone for all windows.
-      :window_blu,   # Changes the blue tone for all windows.
+      #:window_red,   # Changes the red tone for all windows.
+      #:window_grn,   # Changes the green tone for all windows.
+      #:window_blu,   # Changes the blue tone for all windows.
       :volume_bgm,   # Changes the BGM volume used.
       :volume_bgs,   # Changes the BGS volume used.
       :volume_sfx,   # Changes the SFX volume used.
@@ -627,7 +627,7 @@ class Window_SystemOptions < Window_Command
   #--------------------------------------------------------------------------
   def draw_item(index)
     reset_font_settings
-    rect = item_rect(index)
+    rect = item_rect(index) 
     contents.clear_rect(rect)
     case @list[index][:symbol]
     when :window_red, :window_grn, :window_blu
@@ -649,6 +649,8 @@ class Window_SystemOptions < Window_Command
   # draw_window_tone
   #--------------------------------------------------------------------------
   def draw_window_tone(rect, index, symbol)
+	return # Hide colour controls
+	
     name = @list[index][:name]
     draw_text(0, rect.y, contents.width/2, line_height, name, 1)
     #---
