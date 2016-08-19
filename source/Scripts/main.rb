@@ -163,13 +163,13 @@ class AdaanV3
     GameTime.clock?(true)
   end
   
-  def self.fight(troop_name)
+  def self.fight(troop_name, event)
     troop = nil
     $data_troops.each do |t|
       troop = t if !t.nil? && t.name.downcase == troop_name.downcase
     end
     
-    raise "Can't find any troop named #{troop_name}" if troop.nil?
+    raise "Can't find any troop named #{troop_name}" if troop.nil?    
     
 	  troop_id = troop.id 
     can_escape = true
@@ -178,6 +178,10 @@ class AdaanV3
     BattleManager.setup(troop_id, can_escape, survive_if_lose)
     $game_player.make_encounter_count
     SceneManager.call(Scene_Battle)
+    
+    Scene_Battle.pre_terminate_action = Proc.new {    
+      $game_map.events[event.event_id].erase
+    }
   end
 
   private
