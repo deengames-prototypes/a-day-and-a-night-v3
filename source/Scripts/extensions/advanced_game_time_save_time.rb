@@ -24,6 +24,7 @@ class Window_SaveFile
         hour = game_time.hour
         am_pm = hour < 12 ? "AM" : "PM"
         hour -= 12 if hour > 12
+        hour = 12 if hour == 0 # midnight is 12am, not 0am
         
         minute = game_time.min
         minute = "0#{minute}" if (minute < 10)
