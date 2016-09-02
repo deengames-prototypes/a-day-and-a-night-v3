@@ -184,6 +184,11 @@ class AdaanV3
       $game_map.events[event.event_id].erase
     }
   end
+  
+  def self.player_alignment?
+	total_points = PointsSystem.total_points	
+	return total_points >= 0 ? :good : :evil	
+  end
 
   private
 
