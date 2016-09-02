@@ -157,8 +157,8 @@ class AdaanV3
       $game_player.move_frequency = 4
     end
     
-    $game_map.screen.start_tone_change(Tone.new(0, 0, 0, 0), 30) # undo grey-out
-    transfer_to(@@source_map)
+    $game_map.screen.start_tone_change(Tone.new(0, 0, 0, 0), 30) # undo grey-out    
+    transfer_to(@@source_map, 2)
 
     GameTime.notime(false) # resume time
     GameTime.clock?(true)
@@ -191,8 +191,8 @@ class AdaanV3
   def self.transfer_to(map_data, direction = nil)
     map_id = map_data[:id]
     x = map_data[:x]
-    y = map_data[:y]
-
+    y = map_data[:y]    
+    
     # 0 = face up
     $game_player.reserve_transfer(map_id, x, y, direction)
     Fiber.yield while $game_player.transfer?
