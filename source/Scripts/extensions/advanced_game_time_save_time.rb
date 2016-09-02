@@ -6,10 +6,6 @@
 
 class Window_SaveFile
   def draw_playtime(x, y, width, align)
-      #header = DataManager.load_header(@file_index)
-      #return unless header
-      #Logger.log("Ahoy: #{header}")
-      
       contents = {}
       
       filename = DataManager.make_filename(@file_index)
