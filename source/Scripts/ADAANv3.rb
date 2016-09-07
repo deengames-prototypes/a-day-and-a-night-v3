@@ -51,40 +51,12 @@ DEFAULT_ACHIEVEMENTS = [
 
 AchievementManager.initialize(DEFAULT_ACHIEVEMENTS)
 
-PointsSystem.on_add_points(Proc.new do |event, score|
-  # If this is the first sin, get the Son of Adam achievement.
-  all_points = PointsSystem.get_points_scored
-  if all_points.select { |p| p.points < 0 }.length == 1 # this is the only sin
-    AchievementManager.achievements.select { |a| a.name == 'Son of Adam' }.first.achieve
-  end
-
-  # Look at the last four deeds. If it's good/bad/good/bad or bad/good/bad/good,
-  # award the An-Nafsun Al-Lawwamah achievement.
-  if (all_points.length >= 4)
-    last_four = all_points[-4..-1]
-    award = last_four[0].points < 0 && last_four[1].points > 0 && last_four[2].points < 0 && last_four[3].points > 0
-    award ||= last_four[0].points > 0 && last_four[1].points < 0 && last_four[2].points > 0 && last_four[3].points < 0
-    AchievementManager.achievements.select { |a| a.name == 'Nafsun Lawwamah' }.first.achieve if award
-  end
-
-  # Look at the last five salahs in the masjid. If we have fajr/dhur/asr/maghrib/isha,
-  # award the muallaq al-quloob achievement.
-  if all_points.length >= 5
-    salawaat = all_points.select { |p| p.event.downcase.include?('in the masjid') }
-    if salawaat.length >= 5
-      last_five = salawaat[-5..-1]
-      # most recent five include each of the five salawaat
-      award = last_five.any? { |s| s.event.include?('Fajr') } && last_five.any? { |s| s.event.include?('Dhur') } && last_five.any? { |s| s.event.include?('Asr') } && last_five.any? { |s| s.event.include?('Maghrib') } && last_five.any? { |s| s.event.include?('Isha') }
-      AchievementManager.achievements.select { |a| a.name == 'Heart Attached to the Masjid' }.first.achieve if award
-    end
-  end
-end)
-
 class AdaanV3
   STARTED_SWIMMING_VARIABLE = 1
   AFTERNOON_WARNING_SWITCH = 29
   EARLY_NIGHT_WARNING_SWITCH = 30
   JINN_POWER_SWITCH = 12
+  HIDE_RAGE_METER_SWITCH = 39
   
   DROWN_AFTER_SECONDS = 15
   VARIABLE_WITH_FLASHBACK_NUMBER = 2
@@ -93,8 +65,52 @@ class AdaanV3
   FLASHBACK_MAPS = [
     { :id => 6, :x => 8, :y => 12 },
     { :id => 7, :x => 8, :y => 12 },
-	{ :id => 11, :x => 8, :y => 6 },
+	  { :id => 11, :x => 8, :y => 6 },
   ]
+  
+  PointsSystem.on_add_points(Proc.new do |event, score|
+    # If we have 0+ points, show the rage bar. If not, hide it.
+    total_points = PointsSystem.total_points
+    $game_switches[HIDE_RAGE_METER_SWITCH] = total_points >= 0
+      
+    # If this is the first sin, get the Son of Adam achievement.
+    all_points = PointsSystem.get_points_scored
+    if all_points.select { |p| p.points < 0 }.length == 1 # this is the only sin
+      AchievementManager.achievements.select { |a| a.name == 'Son of Adam' }.first.achieve
+    end
+
+    # Look at the last four deeds. If it's good/bad/good/bad or bad/good/bad/good,
+    # award the An-Nafsun Al-Lawwamah achievement.
+    if (all_points.length >= 4)
+      last_four = all_points[-4..-1]
+      award = last_four[0].points < 0 && last_four[1].points > 0 && last_four[2].points < 0 && last_four[3].points > 0
+      award ||= last_four[0].points > 0 && last_four[1].points < 0 && last_four[2].points > 0 && last_four[3].points < 0
+      AchievementManager.achievements.select { |a| a.name == 'Nafsun Lawwamah' }.first.achieve if award
+    end
+
+    # Look at the last five salahs in the masjid. If we have fajr/dhur/asr/maghrib/isha,
+    # award the muallaq al-quloob achievement.
+    if all_points.length >= 5
+      salawaat = all_points.select { |p| p.event.downcase.include?('in the masjid') }
+      if salawaat.length >= 5
+        last_five = salawaat[-5..-1]
+        # most recent five include each of the five salawaat
+        award = last_five.any? { |s| s.event.include?('Fajr') } && last_five.any? { |s| s.event.include?('Dhur') } && last_five.any? { |s| s.event.include?('Asr') } && last_five.any? { |s| s.event.include?('Maghrib') } && last_five.any? { |s| s.event.include?('Isha') }
+        AchievementManager.achievements.select { |a| a.name == 'Heart Attached to the Masjid' }.first.achieve if award
+      end
+    end
+    
+    # Show meter if points were positive and now are negative
+    # Hide meter if points were negative and now are positive
+    total_points = PointsSystem.total_points  
+    if DataManager.get(:last_total_points) < 0 && total_points >= 0
+      $game_switches[HIDE_RAGE_METER_SWITCH] = true 
+    elsif DataManager.get(:last_total_points) >= 0 && total_points < 0
+      $game_switches[HIDE_RAGE_METER_SWITCH] = false
+    end
+    
+    DataManager.set(:last_total_points, total_points)
+  end)
 
   def self.is_game_over?
     # 5am the next day
@@ -187,8 +203,8 @@ class AdaanV3
   end
   
   def self.player_alignment?
-	total_points = PointsSystem.total_points	
-	return total_points >= 0 ? :good : :evil	
+    total_points = PointsSystem.total_points	
+    return total_points >= 0 ? :good : :evil	
   end
 
   private
