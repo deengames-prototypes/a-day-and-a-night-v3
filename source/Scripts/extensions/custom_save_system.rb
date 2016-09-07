@@ -11,6 +11,7 @@
 module DataManager
 
   @contents = {}
+  @callbacks = []
   
   # Loading
   class << self
@@ -31,7 +32,7 @@ module DataManager
   # and stuff you need on a new-game, and/or things to reset between starting a
   # new game and/or loading save games.
   def self.setup(callback)
-    @callback = callback
+    @callbacks << callback
   end
 
   # Saving
@@ -47,7 +48,9 @@ module DataManager
   def self.setup_new_game    
     css_setup_new_game
     @contents = {}
-    @callback.call(@contents)
+    @callbacks.each do |callback|
+      callback.call(@contents)
+    end
   end
 
   def self.get(key)
