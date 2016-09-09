@@ -4,7 +4,7 @@
 # apply status effect on attack, nullify status effect on defend).
 #
 # Requires Yanfly's Keyboard Input script.
-# Only tested with Yanfly's battle engine (but that shouldn't matter).
+# Only works with Yanfly's battle engine.
 # 
 # Version: 1.0
 # Author: ashes999 (ashes999@yahoo.com)
