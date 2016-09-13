@@ -114,6 +114,15 @@ class AdaanV3
     
     DataManager.set(:last_total_points, total_points)
   end)
+  
+  # Set as part of the damage formula for the Fury skill. Returns a multipler of damage
+  # The usual formula is something like rage_damage * a.atk - b.def
+  def self.rage_damage    
+    rage = $game_actors[1].gauge
+    multiplier = 1.0 + (rage / 100) # 1.0 to 2.0
+    $game_actors[1].gauge = 0    
+    return multiplier
+  end
 
   def self.is_game_over?
     # 5am the next day
