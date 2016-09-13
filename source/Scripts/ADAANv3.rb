@@ -27,6 +27,7 @@ require 'Scripts/extensions/GaryCXJk_Hacked_Together_Credits_Script'
 require 'Scripts/extensions/battle_trigger_bar'
 require 'Scripts/extensions/map_effects'
 require 'Scripts/extensions/euphoria_custom_gauge'
+require 'Scripts/extensions/Hide_Menu_Skill'
 
 require 'Scripts/proton_analytics'
 
@@ -99,6 +100,8 @@ class AdaanV3
         AchievementManager.achievements.select { |a| a.name == 'Heart Attached to the Masjid' }.first.achieve if award
       end
     end
+    
+    DataManager.set(:last_total_points, 0) if DataManager.get(:last_total_points).nil?    
     
     # Show meter if points were positive and now are negative
     # Hide meter if points were negative and now are positive
