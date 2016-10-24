@@ -58,6 +58,7 @@ class AdaanV3
   EARLY_NIGHT_WARNING_SWITCH = 30
   JINN_POWER_SWITCH = 12
   HIDE_RAGE_METER_SWITCH = 39
+  FURY_TUTORIAL_SWITCH = 31
   
   DROWN_AFTER_SECONDS = 15
   VARIABLE_WITH_FLASHBACK_NUMBER = 2
@@ -106,14 +107,31 @@ class AdaanV3
     # Show meter if points were positive and now are negative
     # Hide meter if points were negative and now are positive
     total_points = PointsSystem.total_points  
-    if DataManager.get(:last_total_points) < 0 && total_points >= 0
+    if DataManager.get(:last_total_points) <= 0 && total_points >= 0
       $game_switches[HIDE_RAGE_METER_SWITCH] = true 
     elsif DataManager.get(:last_total_points) >= 0 && total_points < 0
       $game_switches[HIDE_RAGE_METER_SWITCH] = false
+      if $game_switches[FURY_TUTORIAL_SWITCH] == false
+        $game_switches[FURY_TUTORIAL_SWITCH] = true
+        self.show_rage_tutorial
+      end
     end
     
     DataManager.set(:last_total_points, total_points)
   end)
+  
+  def self.show_rage_tutorial
+    # Darken
+    s = $game_map.effect_surface
+    s.change_color(30, 0, 0, 0, 64)
+    
+    Game_Interpreter.instance.show_message('Your points just dropped below zero! Although your damage in battle is lower, you learned Fury, a powerful attack.')
+    Game_Interpreter.instance.show_message('To use Fury, charge your rage meter by killing enemies or taking damage. The higher your rage meter, the more damage Fury inflicts.')
+    
+    # Lighten
+    s = $game_map.effect_surface
+    s.change_alpha(30, 0)
+  end
   
   # Set as part of the damage formula for the Fury skill. Returns a multipler of damage
   # The usual formula is something like rage_damage * a.atk - b.def
