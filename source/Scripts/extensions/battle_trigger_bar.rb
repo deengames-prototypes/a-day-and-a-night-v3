@@ -19,9 +19,9 @@ class Scene_Battle < Scene_Base
   
   NORMAL_ATTACK_DATA_ID = 0
   
-  alias :trigger_post_start :post_start
-  def post_start
-    trigger_post_start
+  alias :trigger_start :start
+  def start
+    trigger_start
     @bar = create_image('trigger_bar')
     @bar.x = (Graphics.width - @bar.width) / 2
     @bar.y = 100
@@ -32,6 +32,7 @@ class Scene_Battle < Scene_Base
     @hit_area.z = @bar.z + 1
     
     @trigger = create_image('trigger_bar_trigger')
+    Logger.log("Trigger created: #{@trigger}")
     @trigger.x = @bar.x
     @trigger.y = @bar.y - @trigger.height
     
@@ -94,6 +95,7 @@ class Scene_Battle < Scene_Base
       end
     end
     
+    Logger.log("About to check; trigger=#{@trigger}")
     @trigger.opacity = 0 if @trigger.x >= @bar.x + @bar.width
     # Don't progress battle (fight animations) if the bar is visible
     if @trigger_moving == true && (Time.now - @trigger_start) <= TRIGGER_TIME_IN_SECONDS
