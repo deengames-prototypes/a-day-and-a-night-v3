@@ -141,6 +141,18 @@ class AdaanV3
     $game_actors[1].gauge = 0    
     return multiplier
   end
+  
+  def self.sting_damage
+    damage = DataManager.get(:sting_damage)
+    if damage.nil?
+      damage = 50
+    else
+      damage += 50
+    end
+    DataManager.set(:sting_damage, damage)
+    Logger.log("Sting damage: #{damage}")
+    return damage
+  end
 
   def self.is_game_over?
     # 5am the next day
