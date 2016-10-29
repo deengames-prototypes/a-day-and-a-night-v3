@@ -28,6 +28,7 @@ require 'Scripts/extensions/battle_trigger_bar'
 require 'Scripts/extensions/map_effects'
 require 'Scripts/extensions/euphoria_custom_gauge'
 require 'Scripts/extensions/Hide_Menu_Skill'
+require 'Scripts/extensions/jet_splash_screens'
 
 require 'Scripts/proton_analytics'
 
@@ -149,8 +150,7 @@ class AdaanV3
     else
       damage += 50
     end
-    DataManager.set(:sting_damage, damage)
-    Logger.log("Sting damage: #{damage}")
+    DataManager.set(:sting_damage, damage)    
     return damage
   end
 
