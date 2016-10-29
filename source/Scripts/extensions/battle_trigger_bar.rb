@@ -83,8 +83,6 @@ class Scene_Battle < Scene_Base
               e.value1 = 0 unless e.data_id = NORMAL_ATTACK_DATA_ID # 0% probability except for "Normal Attack"
             end
           end
-          
-          Logger.log("Damage formula is #{action.item.damage.formula}")
         else
           @original_damage = nil
         end
@@ -94,8 +92,7 @@ class Scene_Battle < Scene_Base
         hide_bar
       end
     end
-    
-    Logger.log("About to check; trigger=#{@trigger}")
+        
     @trigger.opacity = 0 if @trigger.x >= @bar.x + @bar.width
     # Don't progress battle (fight animations) if the bar is visible
     if @trigger_moving == true && (Time.now - @trigger_start) <= TRIGGER_TIME_IN_SECONDS
@@ -153,8 +150,7 @@ class Scene_Battle < Scene_Base
   def reset_damage
     if !@original_damage.nil?
       @original_damage[:damage].formula = @original_damage[:formula]
-      @original_damage[:item].effects = @original_damage[:effects]      
-      Logger.log("Restore to #{@original_damage[:item].effects}")
+      @original_damage[:item].effects = @original_damage[:effects]            
     end
   end
 end
