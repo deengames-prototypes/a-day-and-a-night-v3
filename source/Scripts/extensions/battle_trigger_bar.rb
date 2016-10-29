@@ -45,8 +45,8 @@ class Scene_Battle < Scene_Base
   def execute_action    
     attacker = @subject
     action = attacker.current_action
-    @trigger.x = @bar.x
-    if !action.nil? && action.attack?      
+    @trigger.x = @bar.x    
+    if !action.nil? && action.attack?    
       show_bar
       @trigger_moving = true
       @trigger_start = Time.now
