@@ -24,10 +24,11 @@ Yanfly
 Yato
 ♥SOURCE♥
 
-================
-Includes art by:
-================
+==========================
+Includes art and audio by:
+==========================
 
+AntumDeluge
 ChrisL21
 Daniele De Santis
 Iconka
