@@ -1,5 +1,8 @@
 [credits]
+
+=================
 A Day and a Night
+=================
 
 ===========
 Created by:
@@ -29,6 +32,7 @@ Includes art and audio by:
 ==========================
 
 AntumDeluge
+Ayene
 ChrisL21
 Daniele De Santis
 Iconka
@@ -37,3 +41,7 @@ Olha Kozachenko
 pixan
 Visual Pharm (icons8.com)
 WPZOOM (wpzoom.com)
+
+====================
+http://deengames.com
+====================
