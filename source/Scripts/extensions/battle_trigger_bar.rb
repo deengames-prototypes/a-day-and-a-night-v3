@@ -13,7 +13,7 @@
 class Scene_Battle < Scene_Base
   
   # How long the bar is on-screen.
-  TRIGGER_TIME_IN_SECONDS = 0.5
+  TRIGGER_TIME_IN_SECONDS = 0.65
   
   ####### Do not change codez below unless you know what you are doing! #######
   
@@ -32,7 +32,6 @@ class Scene_Battle < Scene_Base
     @hit_area.z = @bar.z + 1
     
     @trigger = create_image('trigger_bar_trigger')
-    Logger.log("Trigger created: #{@trigger}")
     @trigger.x = @bar.x
     @trigger.y = @bar.y - @trigger.height
     
