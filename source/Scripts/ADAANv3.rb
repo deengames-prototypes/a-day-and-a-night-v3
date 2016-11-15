@@ -240,7 +240,7 @@ class AdaanV3
     SceneManager.call(Scene_Battle)
     
     Scene_Battle.pre_terminate_action = Proc.new {    
-      $game_map.events[event.event_id].erase
+      $game_map.events[event.event_id].erase unless event.nil? || $game_map.events[event.event_id].nil?
     }
   end
   
