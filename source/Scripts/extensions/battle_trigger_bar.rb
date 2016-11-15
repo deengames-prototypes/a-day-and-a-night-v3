@@ -13,7 +13,7 @@
 class Scene_Battle < Scene_Base
   
   # How long the bar is on-screen.
-  TRIGGER_TIME_IN_SECONDS = 0.75
+  TRIGGER_TIME_IN_SECONDS = 0.5
   
   ####### Do not change codez below unless you know what you are doing! #######
   

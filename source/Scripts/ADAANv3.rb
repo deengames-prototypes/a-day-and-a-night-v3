@@ -47,8 +47,8 @@ DEFAULT_ACHIEVEMENTS = [
     Achievement.new("Magician's Apprentice", "Commit shirk by sacrificing to a jinn", "Whoever ties a knot and blows on it, he has practiced magic; and whoever practices magic, he has committed shirk; and whoever hangs up something (as an amulet) will be entrusted to it (to protect him). [An-Nasaai]"),
     Achievement.new("Footsteps of Ibrahim", "Frame one statue for destroying others", "Prophet Ibrahim broke his people's idols into fragments, except a large one, and blamed it for the deed. His people almost recanted on their beliefs, but instead decided to burn him alive. [Surah Anbiyaa, 21:57-68]"),
     Achievement.new("Kill Yourself Forever", "Commit suicide purposely", "Whoever purposely throws himself from a mountain and kills himself, or drinks poison and kills himself, or kills himself with an iron weapon, will keep repeating that action in the Fire, forever. [Bukhari]"),
-    Achievement.new("Prophetic Medicine", "Use Black Seed to cure the girl", "The Messenger of Allah said: Use black seed, for indeed, it contains a cure for every disease except death. [At-Tirmidhi]"),
-    Achievement.new("Thief", "Steal everything in the inn", "A man was killed by an arrow during Khaibar. The people said: 'Congratulations [on martyrdom]!' but the Messenger of Allah said: 'No, by Allah! The cloak that he took from the spoils of war is burning him with fire.' [An-Nasaai]")
+    Achievement.new("Prophetic Medicine", "Use Black Seed to cure the girl", "The Messenger of Allah said: Use black seed, for indeed, it contains a cure for every disease except death. [At-Tirmidhi]")#,
+    #Achievement.new("Thief", "Steal everything in the inn", "A man was killed by an arrow during Khaibar. The people said: 'Congratulations [on martyrdom]!' but the Messenger of Allah said: 'No, by Allah! The cloak that he took from the spoils of war is burning him with fire.' [An-Nasaai]")
 ]
 
 AchievementManager.initialize(DEFAULT_ACHIEVEMENTS)
