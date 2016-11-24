@@ -57,7 +57,7 @@ class Scene_Battle < Scene_Base
   def update_basic    
     if @trigger_moving == true
       @trigger.x += @trigger_velocity
-      if Input.key_pressed?(:SPACE) || Input.key_pressed?(:ENTER)
+      if Input.key_pressed?(:SPACE) || Input.key_pressed?(:ENTER) || Input.key_pressed?(:VK_Z)
         # Visual feedback: hit or miss
         is_hit = @trigger.x >= @hit_area.x && @trigger.x + @trigger.width <= @hit_area.x + @hit_area.width
         
