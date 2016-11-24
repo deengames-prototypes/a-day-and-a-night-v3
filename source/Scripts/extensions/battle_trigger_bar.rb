@@ -66,9 +66,11 @@ class Scene_Battle < Scene_Base
           action = attacker.current_action          
           effects = action.item.effects          
           @original_damage = {:attacker => attacker, :item => action.item, :damage => action.item.damage, :formula => action.item.damage.formula, :effects => effects}
+          Logger.log("atk=#{attacker} and action=#{action}")
           
           if ($game_party.members.include?(attacker))
             # Player attacking: 1.5x damage
+            Logger.log("Player attacking: 1.5x #{action.item.damage.formula}")
             action.item.damage.formula = "1.5 * (#{action.item.damage.formula})"
             # Force any status effects
             effects.each do |e|
@@ -76,6 +78,7 @@ class Scene_Battle < Scene_Base
             end              
           else
             # Monster attacking: 0.5x damage
+            Logger.log("Monster attacking: 0.5x #{action.item.damage.formula}")
             action.item.damage.formula = "0.5 * (#{action.item.damage.formula})"
             # Nullify any status effects
             effects.each do |e|
