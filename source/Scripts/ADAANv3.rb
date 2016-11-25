@@ -94,11 +94,11 @@ class AdaanV3
     # Look at the last five salahs in the masjid. If we have fajr/dhur/asr/maghrib/isha,
     # award the muallaq al-quloob achievement.
     if all_points.length >= 5
-      salawaat = all_points.select { |p| p.event.downcase.include?('in the masjid') }
-      if salawaat.length >= 5
-        last_five = salawaat[-5..-1]
+      # Stuff in the masjid. Like breaking statues, praying, etc.
+      masjid_events = all_points.select { |p| p.event.downcase.include?('in the masjid') }
+      if masjid_events.length >= 5        
         # most recent five include each of the five salawaat
-        award = last_five.any? { |s| s.event.include?('Fajr') } && last_five.any? { |s| s.event.include?('Dhur') } && last_five.any? { |s| s.event.include?('Asr') } && last_five.any? { |s| s.event.include?('Maghrib') } && last_five.any? { |s| s.event.include?('Isha') }
+        award = masjid_events.any? { |s| s.event.include?('Fajr') } && masjid_events.any? { |s| s.event.include?('Dhur') } && masjid_events.any? { |s| s.event.include?('Asr') } && masjid_events.any? { |s| s.event.include?('Maghrib') } && masjid_events.any? { |s| s.event.include?('Isha') }
         AchievementManager.achievements.select { |a| a.name == 'Heart Attached to the Masjid' }.first.achieve if award
       end
     end
