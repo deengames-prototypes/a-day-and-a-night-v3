@@ -34,7 +34,7 @@ class PointsSummaryWindow < Window_Command
     bad_deeds = points.select { |p| p.points < 0 }
     
     total_points = points.map { |p| p.points }.sum # TODO: can use PointsSystem.total_points
-    add_command("----- Total deeds: #{total_points} -----", :total_deeds)
+    add_command("----- Final Score: #{total_points} -----", :total_deeds)
     
     add_command("--- Good Deeds: #{good_deeds.length} ---", :good_deeds)    
     good_deeds.each do |p|
